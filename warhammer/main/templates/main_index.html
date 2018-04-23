@@ -1,0 +1,59 @@
+{% extends 'index_parallax.html' %}
+
+{% block Title %}
+
+<a id="logo-container" href="#" class="brand-logo white-text">40K Toolbox</a>
+
+{% endblock %}
+
+
+{% block content %}
+
+<!--   Icon Section   -->
+<div class="row">
+
+    <div class="col s12 m4">
+        <a id="logo-container-armory" href={% url 'armory:index' %} class="brand-logo white-text" title="Browse, add, edit units">
+        <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
+            <h5 class="center">Armory</h5>
+
+            <!--<p class="light center-align">-->
+            <!--Browse, add and edit unit's statistics.-->
+            <!--</p>-->
+        </div>
+        </a>
+    </div>
+
+    <div class="col s12 m4">
+        <a id="logo-container-simulator" href={% url 'simulator:index' %} class="brand-logo white-text" title="Get the statistics of a fight setup">
+
+        <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
+            <h5 class="center">Simulator</h5>
+
+            <!--<p class="light center-align">-->
+            <!--Setup a combat round and get all statistics about it.-->
+            <!--</p>-->
+        </div>
+        </a>
+    </div>
+
+
+    <div class="col s12 m4">
+        <a id="logo-container-army" href={% url 'army:index' %} class="brand-logo white-text" title="Create your army">
+
+        <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">Armies</h5>
+
+            <!--<p class="light center-align">-->
+            <!--Compose your armies.-->
+            <!--</p>-->
+        </div>
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}
