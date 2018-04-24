@@ -1,5 +1,24 @@
 from __future__ import unicode_literals
 
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
-# Create your models here.
+
+class Figurine(models.Model):
+
+    name = models.CharField(max_length=64)
+    picture = models.ImageField(upload_to='figurines', null=True)
+    movement = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
+    melee = models.SmallIntegerField(default=6, validators=[MinValueValidator(1), MaxValueValidator(6)])
+    range = models.SmallIntegerField(default=6, validators=[MinValueValidator(1), MaxValueValidator(6)])
+    strength = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
+    toughness = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
+    life = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
+    attacks = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
+    armor = models.SmallIntegerField(default=7, validators=[MinValueValidator(1), MaxValueValidator(7)])
+    command = models.SmallIntegerField(default=2, validators=[MinValueValidator(2), MaxValueValidator(12)])
+    invulnerability = models.SmallIntegerField(default=7, validators=[MinValueValidator(1), MaxValueValidator(7)])
+    points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
+
+    def __str__(self):
+        return self.name

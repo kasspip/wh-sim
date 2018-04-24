@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
-from army.views import ArmyIndex
+from army.views import ArmyIndexView
 
 urlpatterns = [
-    url(r'', ArmyIndex.as_view(), name='army-index'),
+    url(r'', ArmyIndexView.as_view(), name='army-index'),
 ]

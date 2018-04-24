@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from armory.models import Figurine
+
+
+@admin.register(Figurine)
+class AuthorAdmin(admin.ModelAdmin):
+    pass

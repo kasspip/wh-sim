@@ -1,8 +1,9 @@
 from django.conf.urls import url
+from django.contrib import admin
 
-from armory.views import ArmoryIndex
+from armory.views import ArmoryIndexView
 
 app_name = 'armory'
 urlpatterns = [
-    url(r'', ArmoryIndex.as_view(), name='index'),
+    url(r'', ArmoryIndexView.as_view(), name='index'),
 ]

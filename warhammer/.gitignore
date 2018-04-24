@@ -12,3 +12,4 @@ lib64
 *.iml
 *.pyc
 *.pyo
+parallax-template/static/media/

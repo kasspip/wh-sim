@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'parallax-template',
     'main',
-    'armory',
+    'armory.apps.ArmoryConfig',
     'simulator',
     'army',
 ]
@@ -129,3 +129,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'parallax-template','static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'parallax-template','static','media')
+
+# print STATIC_ROOT
+# print MEDIA_ROOT
