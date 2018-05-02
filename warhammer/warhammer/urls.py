@@ -18,8 +18,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^armory/', include('armory.urls', namespace='armory')),
-    url(r'^army/', include('armory.urls', namespace='army')),
-    url(r'^simulator/', include('armory.urls', namespace='simulator')),
+    url(r'^army/', include('army.urls', namespace='army')),
+    url(r'^simulator/', include('simulator.urls', namespace='simulator')),
     url(r'^admin/', admin.site.urls),
     url(r'', include('main.urls', namespace='main')),
 

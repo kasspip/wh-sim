@@ -4,6 +4,22 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
+class Faction(models.Model):
+    name = models.CharField(max_length=64)
+    icon = models.ImageField(upload_to='Faction', null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Role(models.Model):
+    name = models.CharField(max_length=64)
+    icon = models.ImageField(upload_to='Faction', null=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Figurine(models.Model):
 
     name = models.CharField(max_length=64)
@@ -19,6 +35,28 @@ class Figurine(models.Model):
     command = models.SmallIntegerField(default=2, validators=[MinValueValidator(2), MaxValueValidator(12)])
     invulnerability = models.SmallIntegerField(default=7, validators=[MinValueValidator(1), MaxValueValidator(7)])
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
+    faction = models.ManyToManyField(Faction, related_name='figurines')
+    role = models.ForeignKey(Role, related_name='figurines', null=True)
 
     def __str__(self):
         return self.name
+
+
+class FigurineGroup(models.Model):
+    figurine = models.ForeignKey(Figurine, null=True)
+    count = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
+
+    def __str__(self):
+        return self.figurine.name + " x " + str(self.count)
+
+
+class Squad(models.Model):
+    name = models.CharField(max_length=64)
+    figurines = models.ManyToManyField(FigurineGroup, 'squads')
+
+    def __str__(self):
+        return self.name
+
+
+class Weapon(models.Model):
+    name = models.CharField(max_length=64)

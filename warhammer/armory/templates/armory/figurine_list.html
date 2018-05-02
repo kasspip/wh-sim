@@ -12,7 +12,7 @@
 <h1>Figurines</h1>
 <ul>
     {% for figurines in object_list %}
-    <li>{{ figurines.pub_date|date }} - {{ figurines.headline }}</li>
+    <li>{{ figurines.name }} - {{ figurines.points }}</li>
     {% empty %}
     <li>No figurines yet.</li>
     {% endfor %}
