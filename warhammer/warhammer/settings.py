@@ -134,5 +134,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'parallax-template','static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'parallax-template','static','media')
 
-# print STATIC_ROOT
-# print MEDIA_ROOT
+STATICFILES_DIRS = (
+)

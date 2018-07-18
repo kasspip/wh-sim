@@ -1,4 +1,6 @@
 {% extends 'index_parallax.html' %}
+{% load static %}
+{% load staticfiles %}
 
 {% block Title %}
 
@@ -8,5 +10,33 @@
 
 
 {% block content %}
+
+
+
+<a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+
+
+<table class="bordered grey lighten-5 black-text">
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for figurine in figurines %}
+    <tr>
+        <td>
+            <img src="{% static figurine.picture.url %}" alt="My image"/>
+        </td>
+        <td>
+            <a href="{% url 'armory:detail' figurine.id %}" class="blue-text">
+                {{ figurine.name }}
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
