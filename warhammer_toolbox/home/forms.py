@@ -1,6 +1,8 @@
 from django import forms
 
 from home.models import Figurine
+from image_cropping import ImageCropField, ImageRatioField
+from keyhole.widgets import CroppedImageWidget
 
 
 class FigurineForm(forms.ModelForm):
@@ -12,6 +14,8 @@ class FigurineForm(forms.ModelForm):
                 'class': 'white-text',
             }
         ))
+    picture = forms.ImageField(widget=CroppedImageWidget(width=160, height=160))
+    cropping = ImageRatioField('image', '384x256')
 
     class Meta:
         model = Figurine
@@ -26,4 +30,5 @@ class FigurineForm(forms.ModelForm):
                   'command',
                   'points',
                   'name',
-                  'invulnerability']
+                  'invulnerability',
+                  'picture']

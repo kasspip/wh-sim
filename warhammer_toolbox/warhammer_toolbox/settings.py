@@ -38,7 +38,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'materialize',
+    'easy_thumbnails',
+    'image_cropping',
+    'keyhole',
     'home',
+]
+
+# image cropping
+
+from easy_thumbnails.conf import Settings as thumbnail_settings
+THUMBNAIL_PROCESSORS = (
+                           'image_cropping.thumbnail_processors.crop_corners',
+                       ) + thumbnail_settings.THUMBNAIL_PROCESSORS
+
+IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
+IMAGE_CROPPING_BACKEND_PARAMS = {}
+
+FILEBROWSER_VERSION_PROCESSORS = [
+    'filebrowser.utils.scale_and_crop',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -129,3 +146,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'home','static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'home','static','media')
+
+

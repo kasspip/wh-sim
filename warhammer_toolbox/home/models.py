@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from image_cropping import ImageRatioField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
@@ -22,6 +23,7 @@ class Faction(models.Model):
 class Role(models.Model):
     name = models.CharField(max_length=64)
     icon = models.ImageField(upload_to='role', null=True)
+    display_order = models.SmallIntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -37,7 +39,8 @@ class Keyword(models.Model):
 class Figurine(models.Model):
 
     name = models.CharField(max_length=64)
-    picture = models.ImageField(upload_to='figurines', null=True, blank=True)
+    picture = models.ImageField(upload_to='uploaded_images', null=True, blank=True)
+    cropping = ImageRatioField('picture', '384x256')
     movement = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
     melee = models.SmallIntegerField(default=6, validators=[MinValueValidator(0), MaxValueValidator(6)])
     range = models.SmallIntegerField(default=6, validators=[MinValueValidator(0), MaxValueValidator(6)])

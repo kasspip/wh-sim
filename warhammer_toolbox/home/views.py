@@ -55,6 +55,7 @@ def armory_figurine_edit(request, pk):
 
     context = dict()
     context['form'] = form
+    context['figurine'] = figurine
     return render(request, 'armory_figurine_edit.html', context)
 
 
