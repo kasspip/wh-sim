@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'materialize',
     'easy_thumbnails',
     'image_cropping',
-    'keyhole',
     'home',
 ]
 
