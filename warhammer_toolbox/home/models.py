@@ -4,6 +4,13 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+
 class Faction(models.Model):
     name = models.CharField(max_length=64)
     icon = models.ImageField(upload_to='faction', null=True)
@@ -20,26 +27,75 @@ class Role(models.Model):
         return self.name
 
 
+class Keyword(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+
 class Figurine(models.Model):
 
     name = models.CharField(max_length=64)
-    picture = models.ImageField(upload_to='figurines', null=True)
+    picture = models.ImageField(upload_to='figurines', null=True, blank=True)
     movement = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
-    melee = models.SmallIntegerField(default=6, validators=[MinValueValidator(1), MaxValueValidator(6)])
-    range = models.SmallIntegerField(default=6, validators=[MinValueValidator(1), MaxValueValidator(6)])
+    melee = models.SmallIntegerField(default=6, validators=[MinValueValidator(0), MaxValueValidator(6)])
+    range = models.SmallIntegerField(default=6, validators=[MinValueValidator(0), MaxValueValidator(6)])
     strength = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     toughness = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     life = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     attacks = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
-    armor = models.SmallIntegerField(default=7, validators=[MinValueValidator(1), MaxValueValidator(7)])
+    armor = models.SmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
     command = models.SmallIntegerField(default=2, validators=[MinValueValidator(2), MaxValueValidator(12)])
-    invulnerability = models.SmallIntegerField(default=7, validators=[MinValueValidator(1), MaxValueValidator(7)])
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
-    faction = models.ManyToManyField(Faction, related_name='figurines')
-    role = models.ForeignKey(Role, related_name='figurines', null=True)
+    invulnerability = models.SmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
+    # factions = models.ManyToManyField(Faction, related_name='figurines')
+    # role = models.ForeignKey(Role, related_name='figurines', null=True)
+    # keywords = models.ManyToManyField(Keyword, related_name='figurines')
+    # category = models.ForeignKey(Category, related_name='figurines', null=True)
 
     def __str__(self):
         return self.name
+
+    @staticmethod
+    def _dice_display(value):
+        if value == 0:
+            return '-'
+        else:
+            return "%s +" % value
+
+    def get_movement_display(self):
+        return "%s ''" % self.movement
+
+    def get_melee_display(self):
+        return self._dice_display(self.melee)
+
+    def get_range_display(self):
+        return self._dice_display(self.range)
+
+    def get_strength_display(self):
+        return self.strength
+
+    def get_toughness_display(self):
+        return self.toughness
+
+    def get_life_display(self):
+        return self.life
+
+    def get_attacks_display(self):
+        return self.attacks
+
+    def get_command_display(self):
+        return self.command
+
+    def get_armor_display(self):
+        return self._dice_display(self.armor)
+
+    def get_points_display(self):
+        return "%s pts" % self.points
+
+    def get_invulnerabilty_display(self):
+        return self._dice_display(self.invulnerability)
 
 
 class FigurineGroup(models.Model):
@@ -60,3 +116,6 @@ class Squad(models.Model):
 
 class Weapon(models.Model):
     name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name

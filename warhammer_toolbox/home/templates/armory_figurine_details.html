@@ -2,11 +2,60 @@
 
 {% block Title %}
 
-<a id="logo-container" href="#" class="brand-logo white-text">Armory</a>
+<a id="logo-container" href="{% url 'home:armory'%}" class="brand-logo white-text">Armory</a>
 
 {% endblock %}
 
 
 {% block content %}
-    LOL
+
+    <div class="row">
+        <div class="col s10">
+            <h5 class="white-text"> {{ figurine.name }} </h5>
+        </div>
+        <div class="col s1">
+            <a title="Edit" href="{% url 'home:armory_figurine_edit' figurine.id %}" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">edit</i></a>
+        </div>
+        <div class="col s1">
+            <a title="Delete" href="{% url 'home:armory_figurine_delete' figurine.id %}" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="grey lighten-5 black-text table-striped centered" style="table-layout: fixed;">
+            <thead class="grey lighten-1">
+            <tr>
+                <th>M</th>
+                <th>CC</th>
+                <th>CT</th>
+                <th>F</th>
+                <th>E</th>
+                <th>PV</th>
+                <th>A</th>
+                <th>Cd</th>
+                <th>Sv</th>
+                <th>Iv</th>
+                <th></th>
+                <th>Pts</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ figurine.get_movement_display }}</td>
+                    <td>{{ figurine.get_melee_display }}</td>
+                    <td>{{ figurine.get_range_display }}</td>
+                    <td>{{ figurine.get_strength_display }}</td>
+                    <td>{{ figurine.get_toughness_display }}</td>
+                    <td>{{ figurine.get_life_display }}</td>
+                    <td>{{ figurine.get_attacks_display }}</td>
+                    <td>{{ figurine.get_command_display }}</td>
+                    <td>{{ figurine.get_armor_display }}</td>
+                    <td>{{ figurine.get_invulnerabilty_display }}</td>
+                    <td></td>
+                    <td>{{ figurine.get_points_display }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 {% endblock %}

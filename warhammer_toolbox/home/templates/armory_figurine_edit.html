@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block Title %}
+
+    <a id="logo-container" href="{% url 'home:armory'%}" class="brand-logo white-text">Armory</a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="row">
+                <div class="col s3">
+                    {{ form.name.label_tag }} {{ form.name }}
+                </div>
+            </div>
+
+            <div class="row">
+
+            <table class="grey lighten-5 black-text table-striped centered" style="table-layout: fixed;">
+                <thead class="grey lighten-1">
+                <tr>
+                    <th>M</th>
+                    <th>CC</th>
+                    <th>CT</th>
+                    <th>F</th>
+                    <th>E</th>
+                    <th>PV</th>
+                    <th>A</th>
+                    <th>Cd</th>
+                    <th>Sv</th>
+                    <th>Iv</th>
+                    <th></th>
+                    <th>Pts</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="text-center">
+                        {{ form.movement }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.melee }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.range }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.strength }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.toughness }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.life }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.attacks }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.command }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.armor }}
+                    </td>
+                    <td class="text-center">
+                        {{ form.invulnerability }}
+                    </td>
+                    <td>
+                    </td>
+                    <td class="text-center">
+                        {{ form.points }}
+                    </td>
+                </tr>
+                {% if form.errors %}
+                    <tr class="red lighten-1 white-text">
+                        <td class="text-center">
+                            {{ form.movement.errors }}
+                        </td>
+                        <td class="text-center">
+                            {{ form.melee.errors }}
+                        </td>
+                        <td class="text-center">
+                            {{ form.range.errors }}
+                        </td>
+                        <td class="text-center">
+                            {{ form.strength.errors }}
+                        </td>
+                        <td class="text-center">
+                            {{ form.toughness.errors }}
+                        </td>
+                        <td class="text-center">
+                            {{ form.life.errors }}
+                        </td>
+                        <td class="text-center">
+                            {{ form.attacks.errors }}
+                        </td>
+                        <td class="text-center">
+                            {{ form.command.errors }}
+                        </td>
+                        <td class="text-center">
+                            {{ form.armor.errors }}
+                        </td>
+                        <td>
+                        </td>
+                        <td class="text-center">
+                            {{ form.points.errors }}
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+            </div>
+            <div class="row">
+                <div class="col s12 center-align">
+                    <button class="aves-effect waves-light btn" type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

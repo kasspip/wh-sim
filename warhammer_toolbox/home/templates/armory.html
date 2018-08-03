@@ -4,7 +4,7 @@
 
 {% block Title %}
 
-<a id="logo-container" href="#" class="brand-logo white-text">Armory</a>
+<a id="logo-container" href="{% url 'home:armory'%}" class="brand-logo white-text">Armory</a>
 
 {% endblock %}
 
@@ -13,10 +13,10 @@
 
 
 
-<a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+<a title="Create" class="btn-floating btn-large waves-effect waves-light red" href={% url "home:armory_figurine_create" %}><i class="material-icons">add</i></a>
 
 
-<table class="bordered grey lighten-5 black-text">
+<table class="bordered grey lighten-5 black-text table-striped centered" style="table-layout: fixed;">
     <thead>
     <tr>
         <th></th>
@@ -26,11 +26,13 @@
     <tbody>
     {% for figurine in figurines %}
     <tr>
+        {% if figurine.picture %}
+            <td>
+                <img class="circle responsive-img" src="{% static figurine.picture.url %}"/>
+            </td>
+        {%  endif %}
         <td>
-            <img src="{% static figurine.picture.url %}" alt="My image"/>
-        </td>
-        <td>
-            <a href="{% url 'home:armory_figurine_details' figurine.id %}" class="blue-text">
+            <a href="{% url 'home:armory_figurine_details' figurine.id %}" class="blue-text" >
                 {{ figurine.name }}
             </a>
         </td>
