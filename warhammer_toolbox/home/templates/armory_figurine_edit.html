@@ -139,9 +139,15 @@
                     <button class="waves-effect waves-light btn" type="submit" title="Submit">
                         <i class="material-icons">check</i>
                     </button>
-                    <a title="Cancel" href="{% url 'home:armory_figurine_details' figurine.id %}" class="waves-effect waves-light btn red">
-                        <i class="material-icons">cancel</i>
-                    </a>
+                    {% if figurine %}
+                        <a title="Cancel" href="{% url 'home:armory_figurine_details' figurine.id %}" class="waves-effect waves-light btn red">
+                            <i class="material-icons">cancel</i>
+                        </a>
+                    {% else %}
+                        <a title="Cancel" href="{% url 'home:armory' %}" class="waves-effect waves-light btn red">
+                            <i class="material-icons">cancel</i>
+                        </a>
+                    {% endif %}
                 </div>
 
             </div>
