@@ -109,9 +109,11 @@ class FigurineGroup(models.Model):
         return self.figurine.name + " x " + str(self.count)
 
 
+
 class Squad(models.Model):
     name = models.CharField(max_length=64)
     figurines = models.ManyToManyField(FigurineGroup, 'squads')
+    power = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
 
     def __str__(self):
         return self.name

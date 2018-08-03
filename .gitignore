@@ -13,3 +13,5 @@ lib64
 *.pyc
 *.pyo
 home/static/media/
+venv/
+media/
