@@ -25,7 +25,7 @@ SECRET_KEY = 'b-u1hck6(q2n2p1m)7tmy1tsv*bfht^p^_5wwr^w7vs(9)@2q)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.1.32"]
 
 
 # Application definition
@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'materialize',
-    'easy_thumbnails',
-    'image_cropping',
+    # 'easy_thumbnails',
+    # 'image_cropping',
     'home',
 ]
 
@@ -100,6 +100,9 @@ DATABASES = {
         'PASSWORD': 'root',
         'HOST': '127.0.0.1',
         'PORT': '3306',
+        'OPTIONS': {
+            'connect_timeout': 5000,
+        }
     }
 }
 

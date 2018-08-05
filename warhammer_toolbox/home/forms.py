@@ -1,7 +1,7 @@
 from django import forms
 
-from home.models import Figurine
-from image_cropping import ImageCropField, ImageRatioField, ImageCropWidget
+from home.models import Figurine, Faction
+
 
 class FigurineForm(forms.ModelForm):
 
@@ -12,6 +12,7 @@ class FigurineForm(forms.ModelForm):
                 'class': 'white-text',
             }
         ))
+    faction = forms.ModelChoiceField(queryset=Faction.objects.all())
 
     class Meta:
         model = Figurine
@@ -28,8 +29,9 @@ class FigurineForm(forms.ModelForm):
                   'name',
                   'invulnerability',
                   'picture',
-                  'cropping']
+                  # 'cropping',
+                  'faction']
 
-        widgets = {
-            'picture': ImageCropWidget,
-        }
+        # widgets = {
+        #     'picture': ImageCropWidget,
+        # }

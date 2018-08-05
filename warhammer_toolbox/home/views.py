@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import FormView
 
 from home.forms import FigurineForm
-from home.models import Figurine
+from home.models import Figurine, Faction
 
 
 def index(request):
@@ -56,6 +56,7 @@ def armory_figurine_edit(request, pk):
     context = dict()
     context['form'] = form
     context['figurine'] = figurine
+    context['factions'] = Faction.objects.all()
     return render(request, 'armory_figurine_edit.html', context)
 
 

@@ -6,7 +6,8 @@ from django.contrib import admin
 
 
 urlpatterns = [
-    url(r'^$', index),
+    url(r'^$', index, name='index'),
+    url(r'test/', armory, name='test'),
     url(r'^admin/', admin.site.urls),
     url(r'armory/', armory, name='armory'),
     url(r'figurine/$', armory_figurine_create, name='armory_figurine_create'),
