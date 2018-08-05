@@ -27,8 +27,8 @@
     <div class="row">
 
         <div class="col s12" >
-            <table class="grey lighten-5 black-text table-striped centered" style="table-layout: fixed;">
-                <thead class="grey lighten-1">
+            <table class="black-text table-striped centered" style="table-layout: fixed;">
+                <thead class="grey">
                 <tr>
                     <th>M</th>
                     <th>CC</th>
@@ -44,7 +44,7 @@
                     <th>Pts</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="grey lighten-2">
                 <tr>
                     <td>{{ figurine.get_movement_display }}</td>
                     <td>{{ figurine.get_melee_display }}</td>
@@ -64,12 +64,12 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col s1">
-            <span>Factions :</span>
+    <div class="row grey lighten-2 black-text valign-wrapper ">
+        <div class="col s1 center-align">
+            <span><b>Factions :</b></span>
         </div>
         <div class="col s11">
-            <span class="chip purple darken-3 white-text">{{figurine.faction}}</span>
+            <span class="chip purple darken-3 white-text"><b>{{figurine.faction}}</b></span>
         </div>
     </div>
 
