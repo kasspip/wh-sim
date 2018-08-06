@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block breadcrum %}
     <a href="{% url 'home:index' %}" class="breadcrumb">Toolbox</a>
@@ -9,16 +10,22 @@
 
 
 {% block content %}
-    <div class="row valign-wrapper">
-
-        <div class="col s10">
-            <h5 class="white-text"> {{ figurine.name }} </h5>
+    <div class="row">
+        <div class="col s2">
+            {% if figurine.picture %}
+                <img class="responsive-img " src="{% static figurine.picture.url %}">
+            {% else %}
+                <img class="responsive-img " src="{% static figurine.army.icon.url %}">
+            {% endif %}
+        </div>
+        <div class="col s8">
+            <h4 class="white-text"> {{ figurine.name }} </h4>
         </div>
 
         <div class="col s2 right-align">
-            <a title="Edit" href="{% url 'home:armory_figurine_edit' figurine.id %}"
+            <a title="Edit" href="{% url 'home:armory_figurine_edit' army.id figurine.id %}"
                class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">edit</i></a>
-            <a title="Delete" href="{% url 'home:armory_figurine_delete' figurine.id %}"
+            <a title="Delete" href="{% url 'home:armory_figurine_delete' army.id figurine.id %}"
                class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></a>
         </div>
     </div>
@@ -71,8 +78,8 @@
                 <tbody class="grey lighten-2">
                 <tr>
                     <td>
-                        <span><b>Army :</b></span>
-                        <span class="chip purple darken-3 white-text"><b>{{ figurine.army }}</b></span>
+{#                        <span><b>Army :</b></span>#}
+{#                        <span class="chip purple darken-3 white-text"><b>{{ figurine.army }}</b></span>#}
                     </td>
                 </tr>
                 </tbody>

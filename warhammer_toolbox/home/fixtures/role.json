@@ -1,0 +1,83 @@
+[
+  {
+    "model": "home.role",
+    "pk": 1,
+    "fields": {
+      "name": "HQ",
+      "icon": "role/HQ.png",
+      "display_order": 0
+    }
+  },
+  {
+    "model": "home.role",
+    "pk": 2,
+    "fields": {
+      "name": "Elites",
+      "icon": "role/elite.png",
+      "display_order": 1
+    }
+  },
+  {
+    "model": "home.role",
+    "pk": 3,
+    "fields": {
+      "name": "Troups",
+      "icon": "role/troups.png",
+      "display_order": 2
+    }
+  },
+  {
+    "model": "home.role",
+    "pk": 4,
+    "fields": {
+      "name": "Fast attack",
+      "icon": "role/fast_attack.png",
+      "display_order": 3
+    }
+  },
+  {
+    "model": "home.role",
+    "pk": 5,
+    "fields": {
+      "name": "Heavy Support",
+      "icon": "role/heavy_support.png",
+      "display_order": 4
+    }
+  },
+  {
+    "model": "home.role",
+    "pk": 6,
+    "fields": {
+      "name": "Transport",
+      "icon": "role/transport.png",
+      "display_order": 5
+    }
+  },
+  {
+    "model": "home.role",
+    "pk": 7,
+    "fields": {
+      "name": "Flyer",
+      "icon": "role/flyer.png",
+      "display_order": 6
+    }
+  },
+  {
+    "model": "home.role",
+    "pk": 8,
+    "fields": {
+      "name": "Fortification",
+      "icon": "role/fortification.png",
+      "display_order": 7
+    }
+  },
+  {
+    "model": "home.role",
+    "pk": 9,
+    "fields": {
+      "name": "Lord of War",
+      "icon": "role/lord_of_war.png",
+      "display_order": 8
+    }
+  }
+]

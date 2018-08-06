@@ -1,0 +1,20 @@
+[
+  {
+    "model": "home.army",
+    "pk": 1,
+    "fields": {
+      "name": "Tyranides",
+      "icon": "faction/faction_tyranid_icon.png",
+      "race": "XENOS"
+    }
+  },
+  {
+    "model": "home.army",
+    "pk": 2,
+    "fields": {
+      "name": "Space Marines",
+      "icon": "faction/faction_space_marines_icon.jpg",
+      "race": "IMPERIUM"
+    }
+  }
+]

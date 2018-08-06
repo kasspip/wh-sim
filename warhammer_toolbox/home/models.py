@@ -20,6 +20,9 @@ class Role(models.Model):
     icon = models.ImageField(upload_to='role', null=True)
     display_order = models.SmallIntegerField(default=0)
 
+    class Meta:
+        ordering = ['display_order']
+
     def __str__(self):
         return self.name
 
@@ -47,7 +50,7 @@ class Figurine(models.Model):
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     invulnerability = models.SmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
     army = models.ForeignKey(Army, related_name='figurines', null=True)
-    # role = models.ForeignKey(Role, related_name='figurines', null=True)
+    role = models.ForeignKey(Role, null=True)
     # keywords = models.ManyToManyField(Keyword, related_name='figurines')
     # category = models.ForeignKey(Category, related_name='figurines', null=True)
 

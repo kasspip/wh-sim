@@ -1,6 +1,6 @@
 from django import forms
 
-from home.models import Figurine, Army
+from home.models import Figurine, Army, Role
 
 
 class FigurineForm(forms.ModelForm):
@@ -12,7 +12,7 @@ class FigurineForm(forms.ModelForm):
                 'class': 'white-text',
             }
         ))
-    army = forms.ModelChoiceField(queryset=Army.objects.all())
+    role = forms.ModelChoiceField(queryset=Role.objects.all())
 
     class Meta:
         model = Figurine
@@ -29,8 +29,7 @@ class FigurineForm(forms.ModelForm):
                   'name',
                   'invulnerability',
                   'picture',
-                  # 'cropping',
-                  'army']
+                  'role']
 
         # widgets = {
         #     'picture': ImageCropWidget,
