@@ -1,32 +1,32 @@
 {% extends 'base.html' %}
 
-{% block Title %}
-
-<a id="logo-container" href="{% url 'home:armory'%}" class="brand-logo white-text">Armory</a>
-
+{% block breadcrum %}
+    <a href="{% url 'home:index' %}" class="breadcrumb">Toolbox</a>
+    <a href="{% url 'home:armory' %}" class="breadcrumb">Armory</a>
+    <a href="{% url 'home:armory_army_details' figurine.army.id %}" class="breadcrumb">{{ figurine.army.name }}</a>
+    <a href="#!" class="breadcrumb">{{ figurine.name }}</a>
 {% endblock %}
 
 
 {% block content %}
     <div class="row valign-wrapper">
-        <div class="col s1">
-            <a title="Back" href="{% url 'home:armory' %}" class="btn-floating btn waves-effect waves-light"><i class="material-icons">arrow_back</i></a>
-        </div>
 
-        <div class="col s9">
+        <div class="col s10">
             <h5 class="white-text"> {{ figurine.name }} </h5>
         </div>
 
         <div class="col s2 right-align">
-            <a title="Edit" href="{% url 'home:armory_figurine_edit' figurine.id %}" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">edit</i></a>
-            <a title="Delete" href="{% url 'home:armory_figurine_delete' figurine.id %}" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></a>
+            <a title="Edit" href="{% url 'home:armory_figurine_edit' figurine.id %}"
+               class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">edit</i></a>
+            <a title="Delete" href="{% url 'home:armory_figurine_delete' figurine.id %}"
+               class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></a>
         </div>
     </div>
 
 
     <div class="row">
 
-        <div class="col s12" >
+        <div class="col s12">
             <table class="black-text table-striped centered" style="table-layout: fixed;">
                 <thead class="grey">
                 <tr>
@@ -64,12 +64,19 @@
         </div>
     </div>
 
-    <div class="row grey lighten-2 black-text valign-wrapper ">
-        <div class="col s1 center-align">
-            <span><b>Factions :</b></span>
-        </div>
-        <div class="col s11">
-            <span class="chip purple darken-3 white-text"><b>{{figurine.faction}}</b></span>
+    <div class="row">
+
+        <div class="col s12">
+            <table class="black-text table-striped" style="table-layout: fixed;">
+                <tbody class="grey lighten-2">
+                <tr>
+                    <td>
+                        <span><b>Army :</b></span>
+                        <span class="chip purple darken-3 white-text"><b>{{ figurine.army }}</b></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 

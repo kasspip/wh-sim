@@ -3,11 +3,13 @@ from __future__ import unicode_literals
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
+from home.choices import Race
 
-class Faction(models.Model):
+
+class Army(models.Model):
     name = models.CharField(max_length=64)
     icon = models.ImageField(upload_to='faction', null=True)
-    sub_faction = models.ForeignKey('self', null=True, blank=True)
+    race = models.CharField(choices=Race.CHOICES, default=Race.OTHER, max_length=32)
 
     def __str__(self):
         return self.name
@@ -44,7 +46,7 @@ class Figurine(models.Model):
     command = models.SmallIntegerField(default=2, validators=[MinValueValidator(2), MaxValueValidator(12)])
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     invulnerability = models.SmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
-    faction = models.ForeignKey(Faction, related_name='figurines', null=True)
+    army = models.ForeignKey(Army, related_name='figurines', null=True)
     # role = models.ForeignKey(Role, related_name='figurines', null=True)
     # keywords = models.ManyToManyField(Keyword, related_name='figurines')
     # category = models.ForeignKey(Category, related_name='figurines', null=True)

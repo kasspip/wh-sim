@@ -1,6 +1,18 @@
-<div class="col s1">
-    {{ form.faction.label_tag }}
+<div class="col s12">
+    <table class="black-text table-striped" style="table-layout: fixed;">
+        <tbody class="grey lighten-2">
+        <tr>
+            <td>
+                <span><b>Army :</b></span>
+                {%  if figurine.army %}
+                    <span class="chip purple darken-3 white-text"><b>{{ figurine.faction }}</b></span>
+                {% endif %}
+                {{ form.faction }}
+                {{ form.faction.errors }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-<div class="col s2 white">
-    {{ form.faction }}
-</div>
+
+

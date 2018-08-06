@@ -1,11 +1,11 @@
 from django.contrib import admin
 from image_cropping import ImageCroppingMixin
 
-from models import Figurine, Squad, Faction, FigurineGroup, Role
+from models import Figurine, Squad, FigurineGroup, Role, Army
 
 
 @admin.register(Squad)
-@admin.register(Faction)
+@admin.register(Army)
 @admin.register(FigurineGroup)
 @admin.register(Role)
 class AuthorAdmin(admin.ModelAdmin):
