@@ -11,34 +11,46 @@
 {% block content %}
 
 
+    <div class="row">
+        <div class="col s12">
+            <h3 class="center-align"> Armies </h3>
+        </div>
+    </div>
 
     <ul class="collapsible popout">
 
         {% for race in races %}
             <li>
                 <div class="collapsible-header black">{{ race }} </div>
-                {% for army in armies %}
-                    {% if army.race == race %}
-                        <div class="collapsible-body">
-                            <div class="row">
+                <div class="collapsible-body">
+                    <div class="row">
+                        {% for army in armies %}
+                            {% if army.race == race %}
+
                                 <div class="col s6 l3">
                                     <div class="card">
-                                        <a href="{% url 'home:armory_army_details' army.id %}"  class="blue-text">
+                                        <a href="{% url 'home:armory_army_details' army.id %}" class="blue-text">
                                             <img class="responsive-img" src="{% static army.icon.url %}">
-                                            <div class="card-content grey lighten-2">
+                                            <div class="card-content grey lighten-2 center-align">
                                                 <span class="card-title center-align black-text">{{ army.name }}</span>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
-                            </div>
+
+                            {% endif %}
+
+                        {% endfor %}
+                        <div class="col s1 l1 valign-wrapper center-align">
+                            <a href="{% url 'home:armory_army_create' race.id %}" class="blue-text">
+                                <img title='Add new army' class="responsive-img" src={% static "img/buttons/add_icon.png" %}>
+                            </a>
                         </div>
-                    {% endif %}
-                {% endfor %}
+                    </div>
+                </div>
             </li>
+
         {% endfor %}
     </ul>
-
-
 
 {% endblock %}

@@ -3,13 +3,18 @@ from __future__ import unicode_literals
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
-from home.choices import Race
 
+class Race(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+    
 
 class Army(models.Model):
     name = models.CharField(max_length=64)
     icon = models.ImageField(upload_to='faction', null=True)
-    race = models.CharField(choices=Race.CHOICES, default=Race.OTHER, max_length=32)
+    race = models.ForeignKey(Race,  null=True)
 
     def __str__(self):
         return self.name
@@ -34,10 +39,26 @@ class Keyword(models.Model):
         return self.name
 
 
-class Figurine(models.Model):
-
+class Unit(models.Model):
     name = models.CharField(max_length=64)
-    picture = models.ImageField(upload_to='uploaded_images', null=True, blank=True)
+    power = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
+    role = models.ForeignKey(Role, null=True)
+    army = models.ForeignKey(Army, related_name='figurines', null=True)
+    image = models.ImageField(upload_to='uploaded_images', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Weapon(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
+
+
+class Profile(models.Model):
+    name = models.CharField(max_length=64)
     movement = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
     melee = models.SmallIntegerField(default=6, validators=[MinValueValidator(0), MaxValueValidator(6)])
     range = models.SmallIntegerField(default=6, validators=[MinValueValidator(0), MaxValueValidator(6)])
@@ -49,10 +70,7 @@ class Figurine(models.Model):
     command = models.SmallIntegerField(default=2, validators=[MinValueValidator(2), MaxValueValidator(12)])
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     invulnerability = models.SmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
-    army = models.ForeignKey(Army, related_name='figurines', null=True)
-    role = models.ForeignKey(Role, null=True)
-    # keywords = models.ManyToManyField(Keyword, related_name='figurines')
-    # category = models.ForeignKey(Category, related_name='figurines', null=True)
+    unit = models.ForeignKey(Unit, null=True)
 
     def __str__(self):
         return self.name
@@ -98,25 +116,4 @@ class Figurine(models.Model):
         return self._dice_display(self.invulnerability)
 
 
-class FigurineGroup(models.Model):
-    figurine = models.ForeignKey(Figurine, null=True)
-    count = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
 
-    def __str__(self):
-        return self.figurine.name + " x " + str(self.count)
-
-
-class Squad(models.Model):
-    name = models.CharField(max_length=64)
-    figurines = models.ManyToManyField(FigurineGroup, 'squads')
-    power = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
-
-    def __str__(self):
-        return self.name
-
-
-class Weapon(models.Model):
-    name = models.CharField(max_length=64)
-
-    def __str__(self):
-        return self.name

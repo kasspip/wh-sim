@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('count', models.PositiveIntegerField(default=1, validators=[django.core.validators.MinValueValidator(1)])),
-                ('figurine', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='home.Figurine')),
+                ('figurine', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='home.models.Profile')),
             ],
         ),
         migrations.CreateModel(
