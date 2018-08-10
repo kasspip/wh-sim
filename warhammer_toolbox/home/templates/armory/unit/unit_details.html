@@ -92,18 +92,18 @@
                     <tbody class="grey lighten-2">
                     <tr>
                         <td>{{ profile.name }}</td>
-                        <td>{{ profile.get_movement_display }}</td>
-                        <td>{{ profile.get_melee_display }}</td>
+                        <td>{{ profile.movement }}</td>
+                        <td>{{ profile.get_melee_display}}</td>
                         <td>{{ profile.get_range_display }}</td>
-                        <td>{{ profile.get_strength_display }}</td>
-                        <td>{{ profile.get_toughness_display }}</td>
-                        <td>{{ profile.get_life_display }}</td>
-                        <td>{{ profile.get_attacks_display }}</td>
-                        <td>{{ profile.get_command_display }}</td>
+                        <td>{{ profile.strength }}</td>
+                        <td>{{ profile.toughness }}</td>
+                        <td>{{ profile.life }}</td>
+                        <td>{{ profile.attacks }}</td>
+                        <td>{{ profile.command }}</td>
                         <td>{{ profile.get_armor_display }}</td>
-                        <td>{{ profile.get_invulnerabilty_display }}</td>
+                        <td>{{ profile.get_invulnerability_display }}</td>
                         <td></td>
-                        <td>{{ profile.get_points_display }}</td>
+                        <td>{{ profile.points }}</td>
                     </tr>
                 {% endfor %}
 

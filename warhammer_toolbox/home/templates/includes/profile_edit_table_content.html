@@ -34,13 +34,13 @@
                                 </thead>
                                 <tbody>
                                 {% for profile_form in formset.forms %}
-{#                                    {% if profile_form.non_field_errors %}#}
-{#                                        <tr>#}
-{#                                            {% for error in profile_form.non_field_errors %}#}
-{#                                                <td>{{ error }}</td>#}
-{#                                            {% endfor %}#}
-{#                                        </tr>#}
-{#                                    {% endif %}#}
+                                    {#                                    {% if profile_form.non_field_errors %}#}
+                                    {#                                        <tr>#}
+                                    {#                                            {% for error in profile_form.non_field_errors %}#}
+                                    {#                                                <td>{{ error }}</td>#}
+                                    {#                                            {% endfor %}#}
+                                    {#                                        </tr>#}
+                                    {#                                    {% endif %}#}
 
 
                                     <tr id="{{ profile_form.prefix }}-row">
@@ -48,34 +48,55 @@
                                             {% for fld in profile_form.hidden_fields %}{{ fld }}{% endfor %}
                                             {% if profile_form.instance.pk %}{{ form.DELETE }}{% endif %}
                                             {{ profile_form.name }}
+                                            <span class="red-text">{{ profile_form.name.errors }}</span>
                                         </td>
-                                        <td>{{ profile_form.movement }}</td>
-                                        <td>{{ profile_form.melee }}</td>
-                                        <td>{{ profile_form.range }}</td>
-                                        <td>{{ profile_form.strength }}</td>
-                                        <td>{{ profile_form.toughness }}</td>
-                                        <td>{{ profile_form.life }}</td>
-                                        <td>{{ profile_form.attacks }}</td>
-                                        <td>{{ profile_form.command }}</td>
-                                        <td>{{ profile_form.armor }}</td>
-                                        <td>{{ profile_form.invulnerability }}</td>
+                                        <td>{{ profile_form.movement }}
+                                            <span class="red-text">{{ profile_form.movement.errors }}</span>
+                                        </td>
+                                        <td>
+                                            {{ profile_form.melee }}
+                                            <span class="red-text">{{ profile_form.melee.errors }}</span>
+                                        </td>
+                                        <td>
+                                            {{ profile_form.range }}
+                                            <span class="red-text">{{ profile_form.range.errors }}</span>
+                                        </td>
+                                        <td>
+                                            {{ profile_form.strength }}
+                                            <span class="red-text">{{ profile_form.strength.errors }}</span>
+                                        </td>
+                                        <td>
+                                            {{ profile_form.toughness }}
+                                            <span class="red-text">{{ profile_form.toughness.errors }}</span>
+                                        </td>
+                                        <td>
+                                            {{ profile_form.life }}
+                                            <span class="red-text">{{ profile_form.life.errors }}</span>
+                                        </td>
+                                        <td>
+                                            {{ profile_form.attacks }}
+                                            <span class="red-text">{{ profile_form.attacks.errors }}</span>
+                                        </td>
+                                        <td>
+                                            {{ profile_form.command }}
+                                            <span class="red-text">{{ profile_form.command.errors }}</span>
+                                        </td>
+                                        <td>
+                                            {{ profile_form.armor }}
+                                            <span class="red-text">{{ profile_form.armor.errors }}</span>
+                                        </td>
+                                        <td class="black-text">
+                                            {{ profile_form.invulnerability }}
+                                            <span class="red-text">{{ profile_form.invulnerability.errors }}</span>
+                                        </td>
                                         <td></td>
-                                        <td>{{ profile_form.points }}</td>
+                                        <td>
+                                            {{ profile_form.points }}
+                                            <span class="red-text">{{ profile_form.points.errors }}</span>
+                                        </td>
                                         <th></th>
                                     </tr>
-{#                                    <tr>#}
-{#                                        {% for field in profile_form.visible_fields %}#}
-{#                                            {% if field.errors %}#}
-{#                                                <td class="red">#}
-{#                                                    {% for error in field.errors %}#}
-{#                                                        {{ error }}#}
-{#                                                    {% endfor %}#}
-{#                                                </td>#}
-{#                                            {% else %}#}
-{#                                                <td></td>#}
-{#                                            {% endif %}#}
-{#                                        {% endfor %}#}
-{#                                    </tr>#}
+
                                 {% endfor %}
 
                                 </tbody>
