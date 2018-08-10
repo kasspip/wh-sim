@@ -1,10 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block extraheader %}
+    <script type="text/javascript">
+        $(function () {
+            $('#id_unit_table tbody tr').formset({
+                // For inline formsets, be sure to set the prefix, as the default prefix
+                // ('form') isn't correct.
+                // Django appears to generate the prefix from the lowercase plural
+                // name of the related model, with camel-case converted to underscores.
+                // -> must be the same as related_name set in child model
+                prefix: 'profiles'
+            })
+        })
+    </script>
+{% endblock %}
+
+{% block breadcrum %}
+    <a href="{% url 'home:index' %}" class="breadcrumb">Toolbox</a>
+    <a href="{% url 'home:armory' %}" class="breadcrumb">Armory</a>
+    <a href="{% url 'home:armory_army_details' army.id %}" class="breadcrumb"> {{ army.name }} </a>
+    <a href="{% url 'home:armory_unit_details' army.id unit.id %}" class="breadcrumb"> {{ unit.name }} </a>
+    <a href="#!" class="breadcrumb"> Edit </a>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col s12 title">
+            <h5> New unit</h5>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    {% include "includes/profile_edit_table_content.html" %}
+
+{% endblock %}

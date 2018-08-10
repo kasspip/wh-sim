@@ -1,12 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load staticfiles %}
+
+{% block extraheader %}
+    <script type="text/javascript">
+        $(function () {
+            $('#id_unit_table tbody tr').formset({
+                // For inline formsets, be sure to set the prefix, as the default prefix
+                // ('form') isn't correct.
+                // Django appears to generate the prefix from the lowercase plural
+                // name of the related model, with camel-case converted to underscores.
+                // -> must be the same as related_name set in child model
+                prefix: 'profiles'
+            })
+        })
+    </script>
+{% endblock %}
 
 {% block breadcrum %}
     <a href="{% url 'home:index' %}" class="breadcrumb">Toolbox</a>
     <a href="{% url 'home:armory' %}" class="breadcrumb">Armory</a>
     <a href="{% url 'home:armory_army_details' army.id %}" class="breadcrumb"> {{ army.name }} </a>
-    <a href="#!" class="breadcrumb"> Create Unit </a>
+    <a href="#!" class="breadcrumb"> Create </a>
 {% endblock %}
 
 
@@ -14,32 +28,12 @@
 
     <div class="row">
         <div class="col s12 title">
-            <h5> New {{ army.name }}'s unit</h5>
+            <h5> New unit</h5>
         </div>
     </div>
 
     <div class="divider"></div>
 
-    <div class="row">
-        <div class="col s12">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-
-                {{ form.as_p }}
-
-                <div class="row">
-                    <div class="col s12 center-align">
-                        <button class="waves-effect waves-light btn" type="submit" title="Submit">
-                            <i class="material-icons">check</i>
-                        </button>
-                        <a title="Cancel" href="{% url 'home:armory_army_details' army.id %}"
-                           class="waves-effect waves-light btn red">
-                            <i class="material-icons">cancel</i>
-                        </a>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    {% include "includes/profile_edit_table_content.html" %}
 
 {% endblock %}

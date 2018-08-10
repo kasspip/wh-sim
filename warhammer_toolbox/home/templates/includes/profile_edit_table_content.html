@@ -1,0 +1,123 @@
+<div class="row">
+    <div class="col s12">
+        <form method="post" enctype="multipart/form-data" id="id_unit_table">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="row">
+                        <div class="col s12">
+
+                            <table id="id_unit_table" class="grey lighten-5 black-text table-striped centered">
+
+                                {{ formset.non_form_errors }}
+
+                                <thead class="grey lighten-1">
+                                <tr>
+                                    <th style="width:20%;">Figurine's name</th>
+                                    <th style="width:5%;">M</th>
+                                    <th style="width:5%;">CC</th>
+                                    <th style="width:5%;">CT</th>
+                                    <th style="width:5%;">F</th>
+                                    <th style="width:5%;">E</th>
+                                    <th style="width:5%;">PV</th>
+                                    <th style="width:5%;">A</th>
+                                    <th style="width:5%;">Cd</th>
+                                    <th style="width:5%;">Sv</th>
+                                    <th style="width:5%;">Iv</th>
+                                    <th style="width:5%;"></th>
+                                    <th style="width:5%;">Pts</th>
+                                    <th style="width:8%;"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for profile_form in formset.forms %}
+{#                                    {% if profile_form.non_field_errors %}#}
+{#                                        <tr>#}
+{#                                            {% for error in profile_form.non_field_errors %}#}
+{#                                                <td>{{ error }}</td>#}
+{#                                            {% endfor %}#}
+{#                                        </tr>#}
+{#                                    {% endif %}#}
+
+
+                                    <tr id="{{ profile_form.prefix }}-row">
+                                        <td>
+                                            {% for fld in profile_form.hidden_fields %}{{ fld }}{% endfor %}
+                                            {% if profile_form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                            {{ profile_form.name }}
+                                        </td>
+                                        <td>{{ profile_form.movement }}</td>
+                                        <td>{{ profile_form.melee }}</td>
+                                        <td>{{ profile_form.range }}</td>
+                                        <td>{{ profile_form.strength }}</td>
+                                        <td>{{ profile_form.toughness }}</td>
+                                        <td>{{ profile_form.life }}</td>
+                                        <td>{{ profile_form.attacks }}</td>
+                                        <td>{{ profile_form.command }}</td>
+                                        <td>{{ profile_form.armor }}</td>
+                                        <td>{{ profile_form.invulnerability }}</td>
+                                        <td></td>
+                                        <td>{{ profile_form.points }}</td>
+                                        <th></th>
+                                    </tr>
+{#                                    <tr>#}
+{#                                        {% for field in profile_form.visible_fields %}#}
+{#                                            {% if field.errors %}#}
+{#                                                <td class="red">#}
+{#                                                    {% for error in field.errors %}#}
+{#                                                        {{ error }}#}
+{#                                                    {% endfor %}#}
+{#                                                </td>#}
+{#                                            {% else %}#}
+{#                                                <td></td>#}
+{#                                            {% endif %}#}
+{#                                        {% endfor %}#}
+{#                                    </tr>#}
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                            {% for profile_form in formset.forms %}
+
+
+
+                                {% for hidden_field in profile_form.hidden_fields %}
+                                    {% if hidden_field.errors %}
+                                        <ul>
+                                            {% for error in hidden_field.errors %}
+                                                <li class="red">(Hidden field {{ hidden_field.name }}) {{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+
+
+
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s12 center-align">
+                    {{ formset.management_form }}
+
+                    <button class="waves-effect waves-light btn" type="submit" title="Submit">
+                        <i class="material-icons">check</i>
+                    </button>
+                    <a title="Cancel" href="{% url 'home:armory_army_details' army.id %}"
+                       class="waves-effect waves-light btn red">
+                        <i class="material-icons">cancel</i>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

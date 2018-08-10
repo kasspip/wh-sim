@@ -1,15 +1,22 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>40k Toolbox</title>
+    <title>Toolbox 40k</title>
 
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="/static/css/my_css.css" type="text/css" rel="stylesheet"/>
     {% block head %}
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.formset.js' %}"></script>
+    {% block extraheader %}
     {% endblock %}
 </head>
 <body bgcolor="#000000">
@@ -18,8 +25,7 @@
         <nav>
             <div class="nav-wrapper black">
                 <div class="col s12">
-                    {% block breadcrum %}
-                    {% endblock %}
+                    Toolbox 40000
                 </div>
             </div>
         </nav>
@@ -31,7 +37,6 @@
     <div class="section no-pad-bot">
         <div class="container">
 
-
         </div>
     </div>
     <div class="parallax">
@@ -41,6 +46,14 @@
 
 
 <div class="container">
+    <div class="section">
+        <div class="col s12">
+            {% block breadcrum %}
+            {% endblock %}
+        </div>
+
+    </div>
+
     <div class="section white-text">
 
         {% block content %}
@@ -50,7 +63,7 @@
 </div>
 
 
-<div class="parallax-container valign-wrapper">
+<div class="parallax-container">
     <div class="section no-pad-bot">
         <div class="container">
             <!--<div class="row center">-->
@@ -125,17 +138,13 @@
 
 
 <!--  Scripts-->
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="/static/js/init.js"></script>
 <script src="/static/js/materialize.js"></script>
+<script src="/static/js/init.js"></script>
 
 <script>
-$(document).ready(function() {
-    M.AutoInit();
-});
-
-    {% block javascript %}
-    {% endblock %}
+    $(document).ready(function () {
+        M.AutoInit();
+    });
 </script>
 </body>
 </html>

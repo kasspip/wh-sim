@@ -1,0 +1,17 @@
+.my_image {
+    position: relative;
+    width: 100%; /* for IE 6 */
+}
+
+.text_power {
+    position: absolute;
+    top: 12px;
+    left: 31px;
+    width: 100%;
+    font-size: 35px;
+    text-shadow:
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px 1px 0 #000,
+            1px 1px 0 #000;
+}

@@ -11,24 +11,21 @@
 
 {% block content %}
 
-    <div class="section">
-
-        <div class="row">
-            {#            <div class="col s2">#}
-            {#                <img class="responsive-img " src="{% static army.icon.url %}">#}
-            {#            </div>#}
-            <div class="col s10">
+    <table>
+        <tr>
+            <td style="vertical-align: initial">
                 <h3> {{ army.name }} </h3>
-            </div>
-            <div class="col s2 right-align">
+            </td>
+
+            <td style="width: 15%">
                 <a title="Edit" href="{% url 'home:armory_army_edit' army.id %}"
-                   class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">edit</i></a>
+                   class="btn-floating btn-large waves-effect waves-light black"><i class="material-icons">edit</i></a>
                 <a title="Delete" href="{% url 'home:armory_army_delete' army.id %}"
                    onclick="return confirm('Delete army ?')"
-                   class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">delete</i></a>
-            </div>
-        </div>
-    </div>
+                   class="btn-floating btn-large waves-effect waves-light black"><i class="material-icons">delete</i></a>
+            </td>
+        </tr>
+    </table>
 
     <div class="divider"></div>
 

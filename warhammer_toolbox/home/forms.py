@@ -1,6 +1,7 @@
 from django import forms
 
 from home.models import Profile, Army, Role, Unit
+from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
 
 class ArmyForm(forms.ModelForm):
@@ -21,12 +22,20 @@ class UnitForm(forms.ModelForm):
         model = Unit
         fields = ['name', 'power', 'image']
 
-
+   
 class ProfileForm(forms.ModelForm):
-
-    name = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'white-text',}))
-    role = forms.ModelChoiceField(queryset=Role.objects.all())
 
     class Meta:
         model = Profile
         exclude = ['unit']
+
+
+ProfileFormSet = inlineformset_factory(parent_model=Unit,
+                                       model=Profile,
+                                       form=ProfileForm,
+                                       extra=1)
+
+ProfileEditFormSet = inlineformset_factory(parent_model=Unit,
+                                           model=Profile,
+                                           form=ProfileForm,
+                                           extra=0)

@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from home import forms
 from home.models import Profile, Army, Role, Unit, Race
@@ -17,7 +17,6 @@ def index(request):
 
 
 def armory(request):
-
     context = dict()
     context['races'] = Race.objects.all()
     context['armies'] = Army.objects.all()
@@ -85,16 +84,27 @@ def armory_unit_create(request, army_id, role_id):
 
     if request.method == 'POST':
         form = forms.UnitForm(request.POST, request.FILES)
-        if form.is_valid():
+        formset = forms.ProfileFormSet(request.POST, request.FILES)
+        if form.is_valid() and formset.is_valid():
+            # unit save
             form.cleaned_data['army'] = army
             form.cleaned_data['role'] = role
-            Unit.objects.create(**form.cleaned_data)
+            unit = Unit.objects.create(**form.cleaned_data)
+
+            # formsets save
+
+            for profile_form in formset.forms:
+                profile_form.cleaned_data.pop('DELETE')  # added by jquery.formset.js to handle formset display
+                profile_form.cleaned_data['unit'] = unit
+                Profile.objects.create(**profile_form.cleaned_data)
             return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
     else:
         form = forms.UnitForm()
+        formset = forms.ProfileFormSet()
 
     context = dict()
     context['form'] = form
+    context['formset'] = formset
     context['army'] = army
     return render(request, 'armory/unit/unit_create.html', context)
 
@@ -103,68 +113,55 @@ def armory_unit_details(request, army_id, unit_id):
     context = dict()
     context['army'] = get_object_or_404(Army, pk=army_id)
     context['unit'] = get_object_or_404(Unit, pk=unit_id)
+    context['profiles'] = context['unit'].profiles.all()
     return render(request, 'armory/unit/unit_details.html', context)
 
 
 def armory_unit_edit(request, army_id, unit_id):
-    pass
+    army = get_object_or_404(Army, pk=army_id)
+    unit = get_object_or_404(Unit, pk=unit_id)
+
+    if request.method == 'POST':
+        form = forms.UnitForm(request.POST, request.FILES, instance=unit)
+        formset = forms.ProfileFormSet(request.POST, request.FILES, instance=unit)
+
+        # import pdb; pdb.set_trace()
+        if form.is_valid() and formset.is_valid():
+            # unit save
+            update_instance(unit, form.cleaned_data)
+
+            # formsets save
+            for profile_form in formset.forms:
+                profile_form.cleaned_data.pop('DELETE')
+                profile_form.cleaned_data.pop('id')  # don't know why but this field is set with instance instead of id
+                update_instance(profile_form.instance, profile_form.cleaned_data)
+
+            # formsets delete
+            instances_updated = [form.instance.id for form in formset.forms]
+            for profile in unit.profiles.all():
+                if profile.id not in instances_updated:
+                    profile.delete()
+
+            return HttpResponseRedirect(reverse('home:armory_unit_details', kwargs={
+                'army_id': army_id,
+                'unit_id': unit_id
+            }))
+    else:
+        form = forms.UnitForm(instance=unit)
+        formset = forms.ProfileEditFormSet(instance=unit)
+
+    context = dict()
+    context['form'] = form
+    context['formset'] = formset
+    context['army'] = army
+    context['unit'] = unit
+    return render(request, 'armory/unit/unit_edit.html', context)
 
 
 def armory_unit_delete(request, army_id, unit_id):
-    pass
-
-
-# ----------------- Profile CRUD ------------------------
-
-
-def armory_profile_create(request, army_id):
     army = get_object_or_404(Army, pk=army_id)
-
-    if request.method == 'POST':
-        form = forms.ProfileForm(request.POST)
-        if form.is_valid():
-            form.cleaned_data['army'] = army
-            Profile.objects.create(**form.cleaned_data)
-            return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
-    else:
-        form = forms.ProfileForm()
-
-    context = dict()
-    context['form'] = form
-    context['army'] = get_object_or_404(Army, pk=army_id)
-    return render(request, 'armory/profile/profile_edit.html', context)
-
-
-def armory_profile_details(request, army_id, pk):
-    context = dict()
-    context['figurine'] = get_object_or_404(Profile, pk=pk)
-    context['army'] = get_object_or_404(Army, pk=army_id)
-    return render(request, 'armory/profile/profile_details.html', context)
-
-
-def armory_profile_edit(request, army_id, pk):
-    figurine = get_object_or_404(Profile, pk=pk)
-
-    if request.method == 'POST':
-        form = forms.ProfileForm(request.POST, request.FILES, instance=figurine)
-        if form.is_valid():
-            update_instance(figurine, form.cleaned_data)
-            return HttpResponseRedirect(reverse('home:armory_figurine_details', kwargs={'army_id': army_id, 'pk': pk}))
-    else:
-        form = forms.ProfileForm(instance=figurine)
-
-    context = dict()
-    context['form'] = form
-    context['figurine'] = figurine
-    context['army'] = get_object_or_404(Army, pk=army_id)
-    context['armies'] = Army.objects.all()
-    return render(request, 'armory/profile/profile_edit.html', context)
-
-
-def armory_profile_delete(request, army_id, unit_id, profile_id):
-    army = get_object_or_404(Army, pk=army_id)
-    figurine = get_object_or_404(Profile, pk=pk)
-    figurine.delete()
+    unit = get_object_or_404(Unit, pk=unit_id)
+    for profile in unit.profiles.all():
+        profile.delete()
+    unit.delete()
     return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army.id}))
-
-

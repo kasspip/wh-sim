@@ -70,7 +70,9 @@ class Profile(models.Model):
     command = models.SmallIntegerField(default=2, validators=[MinValueValidator(2), MaxValueValidator(12)])
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     invulnerability = models.SmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(6)])
-    unit = models.ForeignKey(Unit, null=True)
+    unit = models.ForeignKey(Unit, null=True, related_name='profiles')
+
+    
 
     def __str__(self):
         return self.name
