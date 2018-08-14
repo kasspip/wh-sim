@@ -37,3 +37,18 @@
     {% include "includes/profile_edit_table_content.html" %}
 
 {% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var text = 'Variable globale !';
+        (function () {
+
+            var text = 'Variable locale !';
+
+            alert(text); // Forcément, la variable locale prend le dessus
+
+            alert(window.text); // Mais il est toujours possible d'accéder à la variable globale grâce à l'objet « window »
+
+        })();
+    </script>
+{% endblock %}

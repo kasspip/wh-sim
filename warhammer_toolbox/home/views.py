@@ -1,6 +1,8 @@
+from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 
 from home import forms
 from home.models import Profile, Army, Role, Unit, Race
@@ -10,6 +12,24 @@ def update_instance(instance, data):
     for k, v in data.iteritems():
         setattr(instance, k, v)
     instance.save()
+
+# ----------------- Register / Connect / disconnect ------------------------
+
+
+# def login(request):
+#     username = request.POST['username']
+#     password = request.POST['password']
+#     user = authenticate(request, username=username, password=password)
+#     if user is not None:
+#         login(request, user)
+#         return render(request, 'index.html')
+#     else:
+#         return render(request, 'index.html')
+#
+#
+# def logout_view(request):
+#     logout(request)
+#     return render(request, 'index.html')
 
 
 def index(request):
@@ -25,7 +45,7 @@ def armory(request):
 
 # ----------------- Army CRUD ------------------------
 
-
+@login_required
 def armory_army_create(request, race_id):
     race = get_object_or_404(Race, pk=race_id)
 
@@ -52,6 +72,7 @@ def armory_army_details(request, army_id):
     return render(request, 'armory/army/army_details.html', context)
 
 
+@login_required
 def armory_army_edit(request, army_id):
     army = get_object_or_404(Army, pk=army_id)
 
@@ -69,6 +90,7 @@ def armory_army_edit(request, army_id):
     return render(request, 'armory/army/army_edit.html', context)
 
 
+@login_required
 def armory_army_delete(request, army_id):
     army = get_object_or_404(Army, pk=army_id)
     army.delete()
@@ -78,6 +100,7 @@ def armory_army_delete(request, army_id):
 # ----------------- Unit CRUD ------------------------
 
 
+@login_required
 def armory_unit_create(request, army_id, role_id):
     army = get_object_or_404(Army, pk=army_id)
     role = get_object_or_404(Role, pk=role_id)
@@ -117,6 +140,7 @@ def armory_unit_details(request, army_id, unit_id):
     return render(request, 'armory/unit/unit_details.html', context)
 
 
+@login_required
 def armory_unit_edit(request, army_id, unit_id):
     army = get_object_or_404(Army, pk=army_id)
     unit = get_object_or_404(Unit, pk=unit_id)
@@ -158,6 +182,7 @@ def armory_unit_edit(request, army_id, unit_id):
     return render(request, 'armory/unit/unit_edit.html', context)
 
 
+@login_required
 def armory_unit_delete(request, army_id, unit_id):
     army = get_object_or_404(Army, pk=army_id)
     unit = get_object_or_404(Unit, pk=unit_id)

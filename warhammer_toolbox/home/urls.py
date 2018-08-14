@@ -1,14 +1,18 @@
 from django.conf.urls import url
+from django.core.urlresolvers import reverse_lazy
 
 import views
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
+    url(r'^login/$', auth_views.login, {"template_name": "login.html"}, name='login'),
+    url(r'^logout/$', auth_views.logout, {'next_page': reverse_lazy('home:login')}, name='logout'),
 
     # armory
     url(r'armory/$', views.armory, name='armory'),
@@ -21,5 +25,4 @@ urlpatterns = [
     url(r'armory/(?P<army_id>\d+)/unit/(?P<unit_id>\d+)/$', views.armory_unit_details, name='armory_unit_details'),
     url(r'armory/(?P<army_id>\d+)/unit/(?P<unit_id>\d+)/edit/$', views.armory_unit_edit, name='armory_unit_edit'),
     url(r'armory/(?P<army_id>\d+)/unit/(?P<unit_id>\d+)/delete/$', views.armory_unit_delete, name='armory_unit_delete'),
-
 ]

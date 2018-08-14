@@ -38,11 +38,14 @@
                             {% endif %}
 
                         {% endfor %}
-                        <div class="col s1 l1 valign-wrapper center-align">
-                            <a href="{% url 'home:armory_army_create' race.id %}" class="blue-text">
-                                <img title='Add new army' class="responsive-img" src={% static "img/buttons/add_icon.png" %}>
-                            </a>
-                        </div>
+                        {% if perms.home.add_army %}
+                            <div class="col s1 l1 valign-wrapper center-align">
+                                <a href="{% url 'home:armory_army_create' race.id %}" class="blue-text">
+                                    <img title='Add new army' class="responsive-img"
+                                         src={% static "img/buttons/add_icon.png" %}>
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </li>

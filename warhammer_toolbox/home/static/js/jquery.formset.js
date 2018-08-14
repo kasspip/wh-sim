@@ -58,7 +58,7 @@
                 if (row.is('TR')) {
                     // If the forms are laid out in table rows, insert
                     // the remove button into the last table cell:
-                    row.children(':last').append('<a class="delete-row btn-floating waves-effect waves-light black left-align" href="javascript:void(0)"><i class="material-icons">delete</i> </a>');
+                    row.children(':last').append('<a class="delete-row btn-floating waves-effect waves-light black" href="javascript:void(0)"><i class="material-icons">delete</i> </a>');
                 } else if (row.is('UL') || row.is('OL')) {
                     // If they're laid out as an ordered/unordered list,
                     // insert an <li> after the last list item:
