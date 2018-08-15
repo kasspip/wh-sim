@@ -18,7 +18,7 @@
 
 {% block breadcrum %}
     <a href="{% url 'home:index' %}" class="breadcrumb">Toolbox</a>
-    <a href="{% url 'home:armory' %}" class="breadcrumb">Armory</a>
+    <a href="{% url 'home:armory' %}" class="breadcrumb">Armies</a>
     <a href="{% url 'home:armory_army_details' army.id %}" class="breadcrumb"> {{ army.name }} </a>
     <a href="{% url 'home:armory_unit_details' army.id unit.id %}" class="breadcrumb"> {{ unit.name }} </a>
     <a href="#!" class="breadcrumb"> Edit </a>

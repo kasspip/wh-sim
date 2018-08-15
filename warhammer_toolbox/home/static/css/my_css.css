@@ -15,3 +15,17 @@
             -1px 1px 0 #000,
             1px 1px 0 #000;
 }
+
+.tabs .tab a{
+   color: #888888;
+}
+.tabs .tab a:hover,.tabs .tab a.active {
+	background-color:transparent;
+	color:#795548;
+}
+.tabs .tab.disabled a,.tabs .tab.disabled a:hover {
+	color:#795548;
+}
+.tabs .indicator {
+	background-color:#795548;
+}

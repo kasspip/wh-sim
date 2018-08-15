@@ -4,7 +4,7 @@
 
 {% block breadcrum %}
     <a href="{% url 'home:index' %}" class="breadcrumb">Toolbox</a>
-    <a href="#!" class="breadcrumb">Armory</a>
+    <a href="#!" class="breadcrumb">Armies</a>
 {% endblock %}
 
 
@@ -12,44 +12,46 @@
 
     <div class="row">
         <div class="col s12">
-            <h3 class="center-align"> Armies </h3>
+          <ul class="tabs black">
+              {% for race in races %}
+                {% if forloop.first %}
+                <li class="tab col s3"><a href="#{{ race.name }}" class="active">{{ race.name }}</a></li>
+                {% else %}
+                    <li class="tab col s3"><a href="#{{ race.name }}">{{ race.name }}</a></li>
+                {% endif %}
+              {% endfor %}
+          </ul>
         </div>
     </div>
-
-    <ul class="collapsible popout">
+    <div class="row">
         {% for race in races %}
-            <li>
-                <div class="collapsible-header black">{{ race }} </div>
-                <div class="collapsible-body">
-                    <div class="row">
-                        {% for army in armies %}
-                            {% if army.race == race %}
+            <div id={{race.name}} class="row white-text">
+            {% for army in armies %}
 
-                                <div class="col s6 l3">
-                                    <div class="card">
-                                        <a href="{% url 'home:armory_army_details' army.id %}" class="blue-text">
-                                            <img class="responsive-img" src="{% static army.icon.url %}">
-                                            <div class="card-content grey lighten-2 center-align">
-                                                <span class="card-title center-align black-text">{{ army.name }}</span>
-                                            </div>
-                                        </a>
-                                    </div>
+                {% if army.race == race %}
+                    <div class="col s6 l3">
+                        <div class="card">
+                            <a href="{% url 'home:armory_army_details' army.id %}" class="blue-text">
+                                <img class="responsive-img" src="{% static army.icon.url %}">
+                                <div class="card-content grey lighten-2 center-align">
+                                    <span class="card-title center-align black-text">{{ army.name }}</span>
                                 </div>
-                            {% endif %}
-
-                        {% endfor %}
-                        {% if perms.home.add_army %}
-                            <div class="col s1 l1 valign-wrapper center-align">
-                                <a href="{% url 'home:armory_army_create' race.id %}" class="blue-text">
-                                    <img title='Add new army' class="responsive-img"
-                                         src={% static "img/buttons/add_icon.png" %}>
-                                </a>
-                            </div>
-                        {% endif %}
+                            </a>
+                        </div>
                     </div>
+                {% endif %}
+
+            {% endfor %}
+            {% if perms.home.add_army %}
+                <div class="col s6 l3 valign-wrapper center-align">
+                    <a href="{% url 'home:armory_army_create' race.id %}" class="blue-text">
+                            <img title='Add new army' class="responsive-img"
+                             src={% static "img/buttons/add_icon.png" %}>
+                    </a>
                 </div>
-            </li>
+            {% endif %}
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 
 {% endblock %}
