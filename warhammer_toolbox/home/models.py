@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
-from home.choices import DiceRequirement
+from home import choices
 
 
 class Race(models.Model):
@@ -61,16 +61,16 @@ class Weapon(models.Model):
 
 class Profile(models.Model):
     name = models.CharField(max_length=64)
-    movement = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
-    melee = models.CharField(max_length=32, choices=DiceRequirement.CHOICES, default=DiceRequirement.NONE)
-    range = models.CharField(max_length=32, choices=DiceRequirement.CHOICES, default=DiceRequirement.NONE)
-    strength = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
-    toughness = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
-    life = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
-    attacks = models.SmallIntegerField(default=0, validators=[MinValueValidator(0)])
-    command = models.SmallIntegerField(default=2, validators=[MinValueValidator(2), MaxValueValidator(12)])
-    armor = models.CharField(max_length=32, choices=DiceRequirement.CHOICES, default=DiceRequirement.NONE)
-    invulnerability = models.CharField(max_length=32, choices=DiceRequirement.CHOICES, default=DiceRequirement.NONE)
+    movement = models.CharField(max_length=32, choices=choices.DegressiveNumericalEnum.CHOICES, default=choices.DegressiveNumericalEnum.ZERO)
+    melee = models.CharField(max_length=32, choices=choices.DegressiveDiceSuccessEnum.CHOICES, default=choices.DegressiveDiceSuccessEnum.NONE)
+    range = models.CharField(max_length=32, choices=choices.DegressiveDiceSuccessEnum.CHOICES, default=choices.DegressiveDiceSuccessEnum.NONE)
+    strength = models.CharField(max_length=32, choices=choices.NumericalEnum.CHOICES, default=choices.NumericalEnum.ZERO)
+    toughness = models.CharField(max_length=32, choices=choices.NumericalEnum.CHOICES, default=choices.NumericalEnum.ZERO)
+    life = models.CharField(max_length=32, choices=choices.DegressiveLargeNumericalEnum.CHOICES, default=choices.DegressiveLargeNumericalEnum.ZERO)
+    attacks = models.CharField(max_length=32, choices=choices.DegressiveNumericalDiceEnum.CHOICES, default=choices.DegressiveNumericalDiceEnum.ZERO)
+    command = models.CharField(max_length=32, choices=choices.NumericalEnum.CHOICES, default=choices.NumericalEnum.ZERO)
+    armor = models.CharField(max_length=32, choices=choices.DiceSuccessEnum.CHOICES, default=choices.DiceSuccessEnum.NONE)
+    invulnerability = models.CharField(max_length=32, choices=choices.DiceSuccessEnum.CHOICES, default=choices.DiceSuccessEnum.NONE)
 
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     unit = models.ForeignKey(Unit, null=True, related_name='profiles')

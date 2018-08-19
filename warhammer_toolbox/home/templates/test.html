@@ -1,37 +1,43 @@
-{% extends 'base.html' %}
-
-{% block Title %}
-
-    <a id="logo-container" href="{% url 'home:armory'%}" class="brand-logo white-text">Armory</a>
-
-{% endblock %}
-
-{% block content %}
-
-    <form method="post" novalidate>
-        {% csrf_token %}
-
-        {{ form.non_field_errors }}
-
-        {% for hidden_field in form.hidden_fields %}
-            {{ hidden_field.errors }}
-            {{ hidden_field }}
-        {% endfor %}
-
-        <table border="1">
-            {% for field in form.visible_fields %}
-                <tr>
-                    <th>{{ field.label_tag }}</th>
-                    <td>
-                        {{ field.errors }}
-                        {{ field }}
-                        {{ field.help_text }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-
-        <button type="submit">Submit</button>
-    </form>
-
-{% endblock %}
+<td>
+    <div class="select-wrapper"><input class="select-dropdown dropdown-trigger" readonly="true"
+                                       data-target="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f9984" type="text">
+        <ul id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f9984" class="dropdown-content select-dropdown"
+            tabindex="0">
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99840" tabindex="0" class="selected"><span>*</span>
+            </li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99841" tabindex="0"><span>-</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99842" tabindex="0"><span>1</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99843" tabindex="0"><span>2</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99844" tabindex="0"><span>3</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99845" tabindex="0"><span>4</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99846" tabindex="0"><span>5</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99847" tabindex="0"><span>6</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99848" tabindex="0"><span>7</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f99849" tabindex="0"><span>8</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f998410" tabindex="0"><span>9</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f998411" tabindex="0"><span>10</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f998412" tabindex="0"><span>11</span></li>
+            <li id="select-options-a5dc8898-b860-4d8f-aea8-602ddc3f998413" tabindex="0"><span>12</span></li>
+        </ul>
+        <svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 10l5 5 5-5z"></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+        </svg>
+        <select id="id_profiles-0-movement" name="profiles-0-movement" tabindex="-1">
+            <option value="*">*</option>
+            <option value="0" selected="selected">-</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select></div>
+    <span class="red-text"></span>
+</td>

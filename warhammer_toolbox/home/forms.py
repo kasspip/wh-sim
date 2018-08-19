@@ -1,5 +1,6 @@
 from django import forms
 
+from home import choices
 from home.models import Profile, Army, Role, Unit
 from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
@@ -24,6 +25,19 @@ class UnitForm(forms.ModelForm):
 
    
 class ProfileForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['movement'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['melee'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['range'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['strength'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['toughness'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['life'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['attacks'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['command'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['armor'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['invulnerability'].widget.attrs.update({'class': 'browser-default'})
 
     class Meta:
         model = Profile

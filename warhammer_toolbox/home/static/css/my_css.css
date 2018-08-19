@@ -3,18 +3,10 @@
     width: 100%; /* for IE 6 */
 }
 
-.text_power {
-    position: absolute;
-    top: 12px;
-    left: 31px;
-    width: 100%;
-    font-size: 35px;
-    text-shadow:
-            -1px -1px 0 #000,
-            1px -1px 0 #000,
-            -1px 1px 0 #000,
-            1px 1px 0 #000;
-}
+
+
+
+/* tabs */
 
 .tabs .tab a{
    color: #888888;
@@ -28,4 +20,25 @@
 }
 .tabs .indicator {
 	background-color:#795548;
+}
+
+/* selects */
+
+ul.dropdown-content.select-dropdown{
+    top: 0px;
+}
+
+ul.dropdown-content.select-dropdown li span {
+    color: #000; /* no need for !important :) */
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
 }

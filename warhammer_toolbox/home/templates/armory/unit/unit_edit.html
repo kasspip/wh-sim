@@ -1,21 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block extraheader %}
-    <script type="text/javascript">
-        $(function () {
-            $('#id_unit_table tbody tr').formset({
-                // For inline formsets, be sure to set the prefix, as the default prefix
-                // ('form') isn't correct.
-                // Django appears to generate the prefix from the lowercase plural
-                // name of the related model, with camel-case converted to underscores.
-                // -> must be the same as related_name set in child model
-                prefix: 'profiles'
-            })
-        })
-    </script>
-{% endblock %}
-
 {% block breadcrum %}
     <a href="{% url 'home:index' %}" class="breadcrumb">Toolbox</a>
     <a href="{% url 'home:armory' %}" class="breadcrumb">Armies</a>

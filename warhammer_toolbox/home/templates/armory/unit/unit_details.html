@@ -23,26 +23,11 @@
                 {#            </td>#}
                 <td style="width: 10%">
                     <img class="responsive-img" src={% static unit.role.icon.url %}>
-
-                </td>
-{#                <td style="width: 9%">#}
-{#                    <div class="my_image">#}
-{#                        <img class="responsive-img" src={% static 'img/buttons/frame_stone.png' %}>#}
-{#                        <span class="text_power"><b>{{ unit.power }}</b></span>#}
-{#                    </div>#}
-{#                    <div class="card black">#}
-{#                        <div class="card-image">#}
-{#                            <img src={% static 'img/buttons/frame_stone.png' %}>#}
-{#                            <span class="text_outlined card-title text-center"><b>{{ unit.power }}</b></span>#}
-{#                        </div>#}
-{##}
-{#                    </div>#}
-                </td>
                 <td style="vertical-align: initial">
                     <h4 class="white-text valign-wrapper"> {{ unit.name }} </h4>
                 </td>
 
-                <td style="width: 15%">
+                <td style="width: 10%">
                     <a title="Edit" href="{% url 'home:armory_unit_edit' army.id unit.id %}"
                        class="btn-floating btn-large waves-effect waves-light black"><i class="material-icons">edit</i></a>
                     <a title="Delete" href="{% url 'home:armory_unit_delete' army.id unit.id %}"
