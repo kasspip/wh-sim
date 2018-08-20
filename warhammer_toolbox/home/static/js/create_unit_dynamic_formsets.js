@@ -1,66 +1,68 @@
 $(document).ready(main);
 
-function main(){
-    var degressiveMode = $('#profile-life-col select').val() == "*";
+function main() {
+    var degressiveMode = $('#profile-life-col select').val() === "*";
     $('select').on('change', CheckDegressiveProfileValue)
     $('#add-profile-button').on('click', ClickAddButton);
     AddButtonsToRows();
 
-    if (!degressiveMode){
-      $('#add-profile-button').removeClass('hide');
+    if (!degressiveMode) {
+        $('#add-profile-button').removeClass('hide');
+        $("#profile-life-col option[value='*']").addClass('hide')
+    } else {
     }
 
-    function CheckDegressiveProfileValue(){
+    function CheckDegressiveProfileValue() {
 
-        var lifeFieldIsDegressive = $('#profile-life-col select').val() == "*";
+        var lifeFieldIsDegressive = $('#profile-life-col select').val() === "*";
         var globalSelection = $('select option:selected:contains("*")');
 
         console.log(globalSelection.length)
-        if (globalSelection.length == 1 && lifeFieldIsDegressive && degressiveMode == true) {
-           console.log('off solo');
-           UnsetDegressiveProfile();
-        } else if (globalSelection.length >=1 && !lifeFieldIsDegressive && degressiveMode == true) {
-           console.log('off all');
-           UnsetDegressiveProfile(all=true);
-        } else if (globalSelection.length >= 1 && degressiveMode == false) {
-           console.log('on');
-           SetDegressiveProfile();
-        } else if (globalSelection.length == 0 && degressiveMode == true) {
-           console.log('off');
-           UnsetDegressiveProfile();
+        if (globalSelection.length === 1 && lifeFieldIsDegressive && degressiveMode === true) {
+            console.log('off solo');
+            UnsetDegressiveProfile();
+        } else if (globalSelection.length >= 1 && !lifeFieldIsDegressive && degressiveMode === true) {
+            console.log('off all');
+            UnsetDegressiveProfile(all = true);
+        } else if (globalSelection.length >= 1 && degressiveMode === false) {
+            console.log('on');
+            SetDegressiveProfile();
+        } else if (globalSelection.length === 0 && degressiveMode === true) {
+            console.log('off');
+            UnsetDegressiveProfile();
         }
     }
 
     function SetDegressiveProfile() {
-         degressiveMode = true;
+        degressiveMode = true;
 
         //hide multiple profiles button
         $('#add-profile-button').addClass('hide');
 
-        // re-select life
+        // change life value to '*'
         $("#profile-life-col select").val('*');
 
         // remove extra forms
         $('#profiles_table_body').children().each(function (index) {
-            if (index != 0)
+            if (index !== 0)
                 $(this).remove()
-        })
+        });
         $('#id_profiles-TOTAL_FORMS').val($('#profiles_table_body').children().length);
     }
 
-    function UnsetDegressiveProfile(all=false) {
+    function UnsetDegressiveProfile(all = false) {
         degressiveMode = false;
 
         //show multiple profiles button
         $('#add-profile-button').removeClass('hide');
 
+        // change life or all degressive values to '-'
         if (!all) {
-            // re-select life
             var select = $("#profile-life-col select").val(0);
         } else {
             var selects = $(".degressive-value select");
             selects.each(function () {
-                if ($(this).val() == "*")
+                if ($(this).val() === "*")
                     $(this).val(0);
             });
         }
@@ -70,10 +72,10 @@ function main(){
         var rows = $('#profiles_table_body').children();
 
         rows.each(function (index) {
-            var deleteButton = $('<a id="delete-button-' + index +'" class="btn-floating waves-effect waves-light black" href="javascript:void(0)" title="remove profile"><i class="material-icons">delete</i> </a>');
+            var deleteButton = $('<a id="delete-button-' + index + '" class="btn-floating waves-effect waves-light black" href="javascript:void(0)" title="remove profile"><i class="material-icons">delete</i> </a>');
             var lastCell = $(this).children().last();
 
-            if (index != 0){
+            if (index !== 0) {
                 lastCell.empty();
                 deleteButton.on('click', ClickRemoveButton);
                 lastCell.append(deleteButton);
@@ -91,14 +93,24 @@ function main(){
         AddButtonsToRows();
         RenameIds($('#profiles_table_body').children());
         $('#id_profiles-TOTAL_FORMS').val($('#profiles_table_body').children().length);
+
+
+        // hide all value '*' in dropdowns
+        $(".degressive-value option[value='*']").addClass('hide');
     }
 
     function ClickRemoveButton() {
         $(this).parent().parent().remove()
 
         AddButtonsToRows();
-        RenameIds($('#profiles_table_body').children());
-        $('#id_profiles-TOTAL_FORMS').val($('#profiles_table_body').children().length);
+        var body = $('#profiles_table_body');
+        RenameIds(body.children());
+        $('#id_profiles-TOTAL_FORMS').val(body.children().length);
+
+        if (body.children().length === 1) {
+            // show all value '*' in dropdowns
+            $(".degressive-value option[value='*']").removeClass('hide');
+        }
     }
 
     function RenameIds(rows) {
@@ -111,7 +123,7 @@ function main(){
         })
     }
 
-    function renameElem (elem, index) {
+    function renameElem(elem, index) {
         var idRegex = new RegExp('profiles-(\\d+)-');
         var replacement = 'profiles-' + index + '-';
 
