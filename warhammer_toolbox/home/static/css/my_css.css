@@ -42,3 +42,11 @@ select {
     text-indent: 1px;
     text-overflow: '';
 }
+
+td.square {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+
+}

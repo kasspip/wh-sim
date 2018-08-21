@@ -107,8 +107,8 @@ def armory_unit_create(request, army_id, role_id):
 
     if request.method == 'POST':
         form = forms.UnitForm(request.POST, request.FILES)
-        formset = forms.ProfileFormSet(request.POST, request.FILES)
-        if form.is_valid() and formset.is_valid():
+        formset_profile = forms.ProfileFormSet(request.POST, request.FILES)
+        if form.is_valid() and formset_profile.is_valid():
             # unit save
             form.cleaned_data['army'] = army
             form.cleaned_data['role'] = role
@@ -116,19 +116,20 @@ def armory_unit_create(request, army_id, role_id):
 
             # formsets save
 
-            for profile_form in formset.forms:
+            for profile_form in formset_profile.forms:
                 profile_form.cleaned_data.pop('DELETE')  # added by jquery.formset.js to handle formset display
                 profile_form.cleaned_data['unit'] = unit
                 Profile.objects.create(**profile_form.cleaned_data)
             return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
     else:
         form = forms.UnitForm()
-        formset = forms.ProfileFormSet()
+        formset_profile = forms.ProfileFormSet()
 
     context = dict()
     context['form'] = form
-    context['formset'] = formset
+    context['formset_profile'] = formset_profile
     context['army'] = army
+    context['range'] = range(3)
     return render(request, 'armory/unit/unit_create.html', context)
 
 
@@ -147,21 +148,21 @@ def armory_unit_edit(request, army_id, unit_id):
 
     if request.method == 'POST':
         form = forms.UnitForm(request.POST, request.FILES, instance=unit)
-        formset = forms.ProfileFormSet(request.POST, request.FILES, instance=unit)
+        formset_profile = forms.ProfileFormSet(request.POST, request.FILES, instance=unit)
 
         # import pdb; pdb.set_trace()
-        if form.is_valid() and formset.is_valid():
+        if form.is_valid() and formset_profile.is_valid():
             # unit save
             update_instance(unit, form.cleaned_data)
 
             # formsets save
-            for profile_form in formset.forms:
+            for profile_form in formset_profile.forms:
                 profile_form.cleaned_data.pop('DELETE')
                 profile_form.cleaned_data.pop('id')  # don't know why but this field is set with instance instead of id
                 update_instance(profile_form.instance, profile_form.cleaned_data)
 
             # formsets delete
-            instances_updated = [form.instance.id for form in formset.forms]
+            instances_updated = [form.instance.id for form in formset_profile.forms]
             for profile in unit.profiles.all():
                 if profile.id not in instances_updated:
                     profile.delete()
@@ -172,11 +173,11 @@ def armory_unit_edit(request, army_id, unit_id):
             }))
     else:
         form = forms.UnitForm(instance=unit)
-        formset = forms.ProfileEditFormSet(instance=unit)
+        formset_profile = forms.ProfileEditFormSet(instance=unit)
 
     context = dict()
     context['form'] = form
-    context['formset'] = formset
+    context['formset_profile'] = formset_profile
     context['army'] = army
     context['unit'] = unit
     return render(request, 'armory/unit/unit_edit.html', context)

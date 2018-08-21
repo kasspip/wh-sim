@@ -17,7 +17,7 @@
 
                                 <table id="id_profiles_table" class="grey lighten-5 black-text table-striped">
 
-                                    {{ formset.non_form_errors }}
+                                    {{ formset_profile.non_form_errors }}
 
                                     <thead class="grey lighten-1">
                                     <tr>
@@ -34,99 +34,101 @@
                                         <th style="width:4%;">Iv</th>
                                         <th style="width:10%;"></th>
                                         <th style="width:5%;">Pts</th>
-                                        <th style="width:5%;">
-                                        </th>
+                                        <th style="width:5%;"></th>
                                     </tr>
                                     </thead>
                                     <tbody id="profiles_table_body">
-                                    {% for profile_form in formset.forms %}
-                                    {# {% if profile_form.non_field_errors %}#}
-                                    {#                                    <tr>#}
+                                    {% for profile_form in formset_profile.forms %}
+                                        {# {% if profile_form.non_field_errors %}#}
+                                        {#                                    <tr>#}
                                         {# {% for error in profile_form.non_field_errors %}#}
                                         {#                                        <td>{{ error }}</td>                                        #}
                                         {# {% endfor %}#}
                                         {#                                   </tr>                                   #}
-                                    {# {% endif %}#}
+                                        {# {% endif %}#}
 
 
-                                    <tr>
-                                        <td >
-                                            {% for fld in profile_form.hidden_fields %}{{ fld }}{% endfor %}
-                                            {% if profile_form.instance.pk %}{{ form.DELETE }}{% endif %}
-                                            {{ profile_form.name }}
-                                            <span class="red-text">{{ profile_form.name.errors }}</span>
-                                        </td>
-                                        <td class="degressive-value">
-                                            {{ profile_form.movement }}
-                                            <span class="red-text">{{ profile_form.movement.errors }}</span>
-                                        </td>
-                                        <td class="degressive-value">
-                                            {{ profile_form.melee }}
-                                            <span class="red-text">{{ profile_form.melee.errors }}</span>
-                                        </td>
-                                        <td class="degressive-value">
-                                            {{ profile_form.range }}
-                                            <span class="red-text">{{ profile_form.range.errors }}</span>
-                                        </td>
-                                        <td>
-                                            {{ profile_form.strength }}
-                                            <span class="red-text">{{ profile_form.strength.errors }}</span>
-                                        </td>
-                                        <td>
-                                            {{ profile_form.toughness }}
-                                            <span class="red-text">{{ profile_form.toughness.errors }}</span>
-                                        </td>
-                                        <td id="profile-life-col">
-                                            {{ profile_form.life }}
-                                            <span class="red-text">{{ profile_form.life.errors }}</span>
-                                        </td>
-                                        <td class="degressive-value">
-                                            {{ profile_form.attacks }}
-                                            <span class="red-text">{{ profile_form.attacks.errors }}</span>
-                                        </td>
-                                        <td>
-                                            {{ profile_form.command }}
-                                            <span class="red-text">{{ profile_form.command.errors }}</span>
-                                        </td>
-                                        <td>
-                                            {{ profile_form.armor }}
-                                            <span class="red-text">{{ profile_form.armor.errors }}</span>
-                                        </td>
-                                        <td>
-                                            {{ profile_form.invulnerability }}
-                                            <span class="red-text">{{ profile_form.invulnerability.errors }}</span>
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            {{ profile_form.points }}
-                                            <span class="red-text">{{ profile_form.points.errors }}</span>
-                                        </td>
-                                        <td>
-                                            <a id='add-profile-button'
-                                               class="btn-floating waves-effect waves-light black hide"
-                                               title="add another profile"
-                                               href="javascript:void(0)">
-                                                <i class="material-icons">group_add</i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                {% for fld in profile_form.hidden_fields %}{{ fld }}{% endfor %}
+                                                {% if profile_form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                                {{ profile_form.name }}
+                                                <span class="red-text">{{ profile_form.name.errors }}</span>
+                                            </td>
+                                            <td class="degressive-value">
+                                                {{ profile_form.movement }}
+                                                <span class="red-text">{{ profile_form.movement.errors }}</span>
+                                            </td>
+                                            <td class="degressive-value">
+                                                {{ profile_form.melee }}
+                                                <span class="red-text">{{ profile_form.melee.errors }}</span>
+                                            </td>
+                                            <td class="degressive-value">
+                                                {{ profile_form.range }}
+                                                <span class="red-text">{{ profile_form.range.errors }}</span>
+                                            </td>
+                                            <td>
+                                                {{ profile_form.strength }}
+                                                <span class="red-text">{{ profile_form.strength.errors }}</span>
+                                            </td>
+                                            <td>
+                                                {{ profile_form.toughness }}
+                                                <span class="red-text">{{ profile_form.toughness.errors }}</span>
+                                            </td>
+                                            <td id="profile-life-col">
+                                                {{ profile_form.life }}
+                                                <span class="red-text">{{ profile_form.life.errors }}</span>
+                                            </td>
+                                            <td class="degressive-value">
+                                                {{ profile_form.attacks }}
+                                                <span class="red-text">{{ profile_form.attacks.errors }}</span>
+                                            </td>
+                                            <td>
+                                                {{ profile_form.command }}
+                                                <span class="red-text">{{ profile_form.command.errors }}</span>
+                                            </td>
+                                            <td>
+                                                {{ profile_form.armor }}
+                                                <span class="red-text">{{ profile_form.armor.errors }}</span>
+                                            </td>
+                                            <td>
+                                                {{ profile_form.invulnerability }}
+                                                <span class="red-text">{{ profile_form.invulnerability.errors }}</span>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                {{ profile_form.points }}
+                                                <span class="red-text">{{ profile_form.points.errors }}</span>
+                                            </td>
+                                            <td class="center-align">
+                                                <a id='add-profile-button'
+                                                   class="btn-floating waves-effect waves-light black hide"
+                                                   title="add another profile"
+                                                   href="javascript:void(0)">
+                                                    <i class="material-icons">group_add</i>
+                                                </a>
+                                            </td>
+                                        </tr>
 
                                     {% endfor %}
+
+                                    {% include 'includes/degressive_profile_table_content.html' %}
 
                                     </tbody>
                                 </table>
-                                {% for profile_form in formset.forms %}
+                                {% for profile_form in formset_profile.forms %}
 
 
-                                {% for hidden_field in profile_form.hidden_fields %}
-                                {% if hidden_field.errors %}
-                                <ul>
-                                    {% for error in hidden_field.errors %}
-                                    <li class="red">(Hidden field {{ hidden_field.name }}) {{ error }}</li>
+                                    {% for hidden_field in profile_form.hidden_fields %}
+                                        {% if hidden_field.errors %}
+                                            <ul>
+                                                {% for error in hidden_field.errors %}
+                                                    <li class="red">(Hidden
+                                                        field {{ hidden_field.name }}) {{ error }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
                                     {% endfor %}
-                                </ul>
-                                {% endif %}
-                                {% endfor %}
 
 
                                 {% endfor %}
@@ -140,7 +142,7 @@
             </div>
             <div class="row">
                 <div class="col s12 center-align">
-                    {{ formset.management_form }}
+                    {{ formset_profile.management_form }}
 
                     <button class="waves-effect waves-light btn" type="submit" title="Submit">
                         <i class="material-icons">check</i>

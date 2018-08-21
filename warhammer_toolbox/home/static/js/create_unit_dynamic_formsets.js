@@ -1,6 +1,7 @@
 $(document).ready(main);
 
 function main() {
+    var degressiveProfileRows = "[id^=degressive-row-display]";
     var degressiveMode = $('#profile-life-col select').val() === "*";
     $('select').on('change', CheckDegressiveProfileValue)
     $('#add-profile-button').on('click', ClickAddButton);
@@ -30,6 +31,9 @@ function main() {
         } else if (globalSelection.length === 0 && degressiveMode === true) {
             console.log('off');
             UnsetDegressiveProfile();
+        } else if (globalSelection.length >= 1) {
+            HideAllDegressiveCols();
+            ShowDegressiveCol();
         }
     }
 
@@ -43,14 +47,18 @@ function main() {
         $("#profile-life-col select").val('*');
 
         // remove extra forms
-        $('#profiles_table_body').children().each(function (index) {
+        var rows = $('#profiles_table_body').children().not(degressiveProfileRows)
+        rows.each(function (index) {
             if (index !== 0)
                 $(this).remove()
         });
-        $('#id_profiles-TOTAL_FORMS').val($('#profiles_table_body').children().length);
+        $('#id_profiles-TOTAL_FORMS').val(rows.length);
+
+        // show and update degressive row
+        $(degressiveProfileRows).removeClass('hide')
     }
 
-    function UnsetDegressiveProfile(all = false) {
+    function UnsetDegressiveProfile(all=false) {
         degressiveMode = false;
 
         //show multiple profiles button
@@ -66,10 +74,21 @@ function main() {
                     $(this).val(0);
             });
         }
+
+        // hide degressive row
+        $(degressiveProfileRows).addClass('hide');
+    }
+
+    function ShowDegressiveCol(){
+
+    }
+
+    function HideAllDegressiveCols(){
+
     }
 
     function AddButtonsToRows() {
-        var rows = $('#profiles_table_body').children();
+        var rows = $('#profiles_table_body').children().not(degressiveProfileRows);
 
         rows.each(function (index) {
             var deleteButton = $('<a id="delete-button-' + index + '" class="btn-floating waves-effect waves-light black" href="javascript:void(0)" title="remove profile"><i class="material-icons">delete</i> </a>');
@@ -85,15 +104,15 @@ function main() {
 
     function ClickAddButton() {
         var tableBody = $('#profiles_table_body')
-        var rows = tableBody.children();
+        var rows = tableBody.children().not(degressiveProfileRows);
         var newRow = rows.last().clone();
 
         tableBody.append(newRow);
 
         AddButtonsToRows();
-        RenameIds($('#profiles_table_body').children());
-        $('#id_profiles-TOTAL_FORMS').val($('#profiles_table_body').children().length);
-
+        rows = $('#profiles_table_body').children().not(degressiveProfileRows)
+        RenameIds(rows);
+        $('#id_profiles-TOTAL_FORMS').val(rows.length);
 
         // hide all value '*' in dropdowns
         $(".degressive-value option[value='*']").addClass('hide');
@@ -104,7 +123,7 @@ function main() {
 
         AddButtonsToRows();
         var body = $('#profiles_table_body');
-        RenameIds(body.children());
+        RenameIds(body.children().not(degressiveProfileRows));
         $('#id_profiles-TOTAL_FORMS').val(body.children().length);
 
         if (body.children().length === 1) {
