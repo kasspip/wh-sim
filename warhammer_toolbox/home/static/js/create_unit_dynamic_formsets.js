@@ -11,28 +11,24 @@ function main() {
         $('#add-profile-button').removeClass('hide');
         $("#profile-life-col option[value='*']").addClass('hide')
     } else {
+        HideDegressiveCols();
+        ShowDegressiveCol();
     }
 
     function CheckDegressiveProfileValue() {
-
         var lifeFieldIsDegressive = $('#profile-life-col select').val() === "*";
-        var globalSelection = $('select option:selected:contains("*")');
+        var degressiveSelection = $('select option:selected:contains("*")');
 
-        console.log(globalSelection.length)
-        if (globalSelection.length === 1 && lifeFieldIsDegressive && degressiveMode === true) {
-            console.log('off solo');
+        if (degressiveSelection.length === 1 && lifeFieldIsDegressive && degressiveMode === true) {
             UnsetDegressiveProfile();
-        } else if (globalSelection.length >= 1 && !lifeFieldIsDegressive && degressiveMode === true) {
-            console.log('off all');
+        } else if (degressiveSelection.length >= 1 && !lifeFieldIsDegressive && degressiveMode === true) {
             UnsetDegressiveProfile(all = true);
-        } else if (globalSelection.length >= 1 && degressiveMode === false) {
-            console.log('on');
+        } else if (degressiveSelection.length >= 1 && degressiveMode === false) {
             SetDegressiveProfile();
-        } else if (globalSelection.length === 0 && degressiveMode === true) {
-            console.log('off');
+        } else if (degressiveSelection.length === 0 && degressiveMode === true) {
             UnsetDegressiveProfile();
-        } else if (globalSelection.length >= 1) {
-            HideAllDegressiveCols();
+        } else if (degressiveSelection.length >= 1) {
+            HideDegressiveCols();
             ShowDegressiveCol();
         }
     }
@@ -47,15 +43,15 @@ function main() {
         $("#profile-life-col select").val('*');
 
         // remove extra forms
-        var rows = $('#profiles_table_body').children().not(degressiveProfileRows)
+        var rows = $('#profiles_table_body').children().not(degressiveProfileRows);
         rows.each(function (index) {
             if (index !== 0)
                 $(this).remove()
         });
         $('#id_profiles-TOTAL_FORMS').val(rows.length);
 
-        // show and update degressive row
-        $(degressiveProfileRows).removeClass('hide')
+        // show degressive col
+        ShowDegressiveCol();
     }
 
     function UnsetDegressiveProfile(all=false) {
@@ -75,16 +71,49 @@ function main() {
             });
         }
 
-        // hide degressive row
+        // hide degressive cols
+        HideDegressiveCols();
+        // hide degressive rows
+    }
+
+    function ShowDegressiveCol() {
+        $(degressiveProfileRows).removeClass('hide');
+
+
+        var selectedDegressiveSelects = $('select').has('option:selected:contains("*")');
+        var degressiveRows = $(degressiveProfileRows);
+        selectedDegressiveSelects.each(function () {
+            var split = $(this).attr('id').split('-');
+            var fieldName = split[split.length - 1];
+            var tds = degressiveRows.find('[id^=' + fieldName + ']');
+            tds.each(function () {
+                if ($(this).children('select').hasClass('hide')) {
+                    $(this).children('select').removeClass('hide');
+                    $(this).addClass('grey lighten-5');
+                }
+            })
+        });
+    }
+
+    function HideDegressiveCols() {
+
+        var displayedCells = $("td.grey.lighten-5");
+
+        displayedCells.each(function () {
+            var split = $(this).attr('id').split('-');
+            var fieldName = split[0];
+            var fieldSelect = $("select[id$=" + fieldName + "]");
+
+            if (fieldSelect.val() == '*')
+                ;
+            else {
+                if (! $(this).hasClass('hide')) {
+                    $(this).removeClass('grey lighten-5');
+                    $(this).children('select').addClass('hide');
+                }
+            }
+        });
         $(degressiveProfileRows).addClass('hide');
-    }
-
-    function ShowDegressiveCol(){
-
-    }
-
-    function HideAllDegressiveCols(){
-
     }
 
     function AddButtonsToRows() {
@@ -103,14 +132,14 @@ function main() {
     }
 
     function ClickAddButton() {
-        var tableBody = $('#profiles_table_body')
+        var tableBody = $('#profiles_table_body');
         var rows = tableBody.children().not(degressiveProfileRows);
         var newRow = rows.last().clone();
 
         tableBody.append(newRow);
 
         AddButtonsToRows();
-        rows = $('#profiles_table_body').children().not(degressiveProfileRows)
+        rows = $('#profiles_table_body').children().not(degressiveProfileRows);
         RenameIds(rows);
         $('#id_profiles-TOTAL_FORMS').val(rows.length);
 
@@ -122,11 +151,11 @@ function main() {
         $(this).parent().parent().remove()
 
         AddButtonsToRows();
-        var body = $('#profiles_table_body');
-        RenameIds(body.children().not(degressiveProfileRows));
-        $('#id_profiles-TOTAL_FORMS').val(body.children().length);
+        var profile_rows = $('#profiles_table_body').children().not(degressiveProfileRows);
+        RenameIds(profile_rows);
+        $('#id_profiles-TOTAL_FORMS').val(profile_rows.length);
 
-        if (body.children().length === 1) {
+        if (profile_rows.length === 1) {
             // show all value '*' in dropdowns
             $(".degressive-value option[value='*']").removeClass('hide');
         }

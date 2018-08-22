@@ -59,6 +59,24 @@ class Weapon(models.Model):
         return self.name
 
 
+class DegressiveProfile(models.Model):
+    life_1 = models.CharField(max_length=32, choices=choices.LargeNumericalEnum.CHOICES, default=choices.LargeNumericalEnum.ZERO)
+    life_2 = models.CharField(max_length=32, choices=choices.LargeNumericalEnum.CHOICES, default=choices.LargeNumericalEnum.ZERO)
+    life_3 = models.CharField(max_length=32, choices=choices.LargeNumericalEnum.CHOICES, default=choices.LargeNumericalEnum.ZERO)
+    movement_1 = models.CharField(max_length=32, choices=choices.NumericalEnum.CHOICES, default=choices.NumericalEnum.ZERO)
+    movement_2 = models.CharField(max_length=32, choices=choices.NumericalEnum.CHOICES, default=choices.NumericalEnum.ZERO)
+    movement_3 = models.CharField(max_length=32, choices=choices.NumericalEnum.CHOICES, default=choices.NumericalEnum.ZERO)
+    melee_1 = models.CharField(max_length=32, choices=choices.DiceSuccessEnum.CHOICES, default=choices.DiceSuccessEnum.NONE)
+    melee_2 = models.CharField(max_length=32, choices=choices.DiceSuccessEnum.CHOICES, default=choices.DiceSuccessEnum.NONE)
+    melee_3 = models.CharField(max_length=32, choices=choices.DiceSuccessEnum.CHOICES, default=choices.DiceSuccessEnum.NONE)
+    range_1 = models.CharField(max_length=32, choices=choices.DiceSuccessEnum.CHOICES, default=choices.DiceSuccessEnum.NONE)
+    range_2 = models.CharField(max_length=32, choices=choices.DiceSuccessEnum.CHOICES, default=choices.DiceSuccessEnum.NONE)
+    range_3 = models.CharField(max_length=32, choices=choices.DiceSuccessEnum.CHOICES, default=choices.DiceSuccessEnum.NONE)
+    attacks_1 = models.CharField(max_length=32, choices=choices.NumericalDiceEnum.CHOICES, default=choices.NumericalDiceEnum.ZERO)
+    attacks_2 = models.CharField(max_length=32, choices=choices.NumericalDiceEnum.CHOICES, default=choices.NumericalDiceEnum.ZERO)
+    attacks_3 = models.CharField(max_length=32, choices=choices.NumericalDiceEnum.CHOICES, default=choices.NumericalDiceEnum.ZERO)
+
+
 class Profile(models.Model):
     name = models.CharField(max_length=64)
     movement = models.CharField(max_length=32, choices=choices.DegressiveNumericalEnum.CHOICES, default=choices.DegressiveNumericalEnum.ZERO)
@@ -74,10 +92,7 @@ class Profile(models.Model):
 
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     unit = models.ForeignKey(Unit, null=True, related_name='profiles')
-
+    degressive_profile = models.ForeignKey(DegressiveProfile, null=True, related_name='base_profiles')
+    
     def __str__(self):
         return self.name
-
-
-
-

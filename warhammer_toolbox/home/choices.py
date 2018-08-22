@@ -118,6 +118,14 @@ class SpecialEnum(object):
     ]
 
 
+class NumericalDiceEnum(NumericalEnum, DiceEnum):
+    CHOICES = NumericalEnum.CHOICES + DiceEnum.CHOICES
+
+
+class LargeNumericalEnum(NumericalEnum, ExtendedNumericalEnum):
+    CHOICES = NumericalEnum.CHOICES + ExtendedNumericalEnum.CHOICES
+
+
 class DegressiveNumericalEnum(NumericalEnum, SpecialEnum):
     CHOICES = SpecialEnum.CHOICES + NumericalEnum.CHOICES
 
