@@ -107,15 +107,16 @@ def armory_unit_create(request, army_id, role_id):
 
     if request.method == 'POST':
         form = forms.UnitForm(request.POST, request.FILES)
-        formset_profile = forms.ProfileFormSet(request.POST, request.FILES)
+        formset_profile = forms.ProfileCreateFormSet(request.POST, request.FILES)
+        form_degressive_profile = forms.DegressiveProfileForm(request.POST, request.FILES)
+
         if form.is_valid() and formset_profile.is_valid():
             # unit save
             form.cleaned_data['army'] = army
             form.cleaned_data['role'] = role
             unit = Unit.objects.create(**form.cleaned_data)
 
-            # formsets save
-
+            # profile formsets save
             for profile_form in formset_profile.forms:
                 profile_form.cleaned_data.pop('DELETE')  # added by jquery.formset.js to handle formset display
                 profile_form.cleaned_data['unit'] = unit
@@ -123,13 +124,14 @@ def armory_unit_create(request, army_id, role_id):
             return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
     else:
         form = forms.UnitForm()
-        formset_profile = forms.ProfileFormSet()
+        formset_profile = forms.ProfileCreateFormSet()
+        form_degressive_profile = forms.DegressiveProfileForm()
 
     context = dict()
     context['form'] = form
-    context['formset_profile'] = formset_profile
     context['army'] = army
-    context['range'] = range(3)
+    context['formset_profile'] = formset_profile
+    context['form_degressive_profile'] = form_degressive_profile
     return render(request, 'armory/unit/unit_create.html', context)
 
 
@@ -148,7 +150,7 @@ def armory_unit_edit(request, army_id, unit_id):
 
     if request.method == 'POST':
         form = forms.UnitForm(request.POST, request.FILES, instance=unit)
-        formset_profile = forms.ProfileFormSet(request.POST, request.FILES, instance=unit)
+        formset_profile = forms.ProfileCreateFormSet(request.POST, request.FILES, instance=unit)
 
         # import pdb; pdb.set_trace()
         if form.is_valid() and formset_profile.is_valid():

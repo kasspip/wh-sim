@@ -1,7 +1,7 @@
 from django import forms
 
 from home import choices
-from home.models import Profile, Army, Role, Unit
+from home.models import Profile, Army, Role, Unit, DegressiveProfile
 from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
 
@@ -41,15 +41,40 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        exclude = ['unit']
+        exclude = ['unit', 'degressive_profile']
 
 
-ProfileFormSet = inlineformset_factory(parent_model=Unit,
-                                       model=Profile,
-                                       form=ProfileForm,
-                                       extra=1)
+ProfileCreateFormSet = inlineformset_factory(parent_model=Unit,
+                                             model=Profile,
+                                             form=ProfileForm,
+                                             extra=1)
 
 ProfileEditFormSet = inlineformset_factory(parent_model=Unit,
                                            model=Profile,
                                            form=ProfileForm,
                                            extra=0)
+
+
+class DegressiveProfileForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(DegressiveProfileForm, self).__init__(*args, **kwargs)
+        self.fields['life_1'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['life_2'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['life_3'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['movement_1'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['movement_2'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['movement_3'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['melee_1'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['melee_2'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['melee_3'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['range_1'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['range_2'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['range_3'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['attacks_1'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['attacks_2'].widget.attrs.update({'class': 'browser-default'})
+        self.fields['attacks_3'].widget.attrs.update({'class': 'browser-default'})
+
+    class Meta:
+        model = DegressiveProfile
+        exclude = []
