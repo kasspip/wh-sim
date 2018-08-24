@@ -6,14 +6,13 @@ function main() {
     $('select').on('change', CheckDegressiveProfileValue)
     $('#add-profile-button').on('click', ClickAddButton);
     AddButtonsToRows();
-    HideDegressiveCols();
 
     if (!degressiveMode) {
         $('#add-profile-button').removeClass('hide');
         $("#profile-life-col option[value='*']").addClass('hide')
-    } else {
-        ShowDegressiveCol();
     }
+    RefreshDegressiveColsDisplay();
+
 
     function CheckDegressiveProfileValue() {
         var lifeFieldIsDegressive = $('#profile-life-col select').val() === "*";
@@ -28,8 +27,7 @@ function main() {
         } else if (degressiveSelection.length === 0 && degressiveMode === true) {
             UnsetDegressiveProfile();
         } else if (degressiveSelection.length >= 1) {
-            HideDegressiveCols();
-            ShowDegressiveCol();
+            RefreshDegressiveColsDisplay();
         }
     }
 
@@ -50,8 +48,7 @@ function main() {
         });
         $('#id_profiles-TOTAL_FORMS').val(rows.length);
 
-        // show degressive col
-        ShowDegressiveCol();
+        RefreshDegressiveColsDisplay();
     }
 
     function UnsetDegressiveProfile(all=false) {
@@ -71,47 +68,31 @@ function main() {
             });
         }
 
-        // hide degressive cols
-        HideDegressiveCols();
-        // hide degressive rows
+        RefreshDegressiveColsDisplay();
     }
 
-    function ShowDegressiveCol() {
-        $(degressiveProfileRows).removeClass('hide');
+    function RefreshDegressiveColsDisplay() {
 
+        if (!degressiveMode) {
+            $(degressiveProfileRows).addClass('hide');
+            return
+        } else
+            $(degressiveProfileRows).removeClass('hide');
 
-        var selectedDegressiveSelects = $('select').has('option:selected:contains("*")');
-        var degressiveRows = $(degressiveProfileRows);
-        selectedDegressiveSelects.each(function () {
-            var split = $(this).attr('id').split('-');
-            var fieldName = split[split.length - 1];
-            var tds = degressiveRows.find('[id^=' + fieldName + ']');
-            tds.each(function () {
-                if (!$(this).hasClass('grey lighten-5')) {
-                    $(this).children('select').removeClass('hide');
-                    $(this).addClass('grey lighten-5');
-                }
-            })
-        });
-    }
-
-    function HideDegressiveCols() {
-
-        var displayedCells = $("td.grey.lighten-5");
-
-        displayedCells.each(function () {
+        var degressiveCols = $(".degressive-col");
+        degressiveCols.each(function () {
             var split = $(this).attr('id').split('-');
             var fieldName = split[0];
             var fieldSelect = $("select[id$=" + fieldName + "]");
-
             if (fieldSelect.val() === '*'){
-                if ($(this).parent().hasClass('grey lighten-5')) {
-                    $(this).parent().removeClass('grey lighten-5');
-                    $(this).addClass('hide');
-                }
+                $(this).addClass('grey lighten-5');
+                $(this).children('select').removeClass('hide');
+            } else {
+                $(this).removeClass('grey lighten-5');
+                $(this).children('select').addClass('hide');
             }
         });
-        $(degressiveProfileRows).addClass('hide');
+
     }
 
     function AddButtonsToRows() {
