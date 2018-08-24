@@ -78,7 +78,7 @@
                     <tr>
                         <td>{{ profile.name }}</td>
                         <td>{{ profile.movement }}</td>
-                        <td>{{ profile.get_melee_display}}</td>
+                        <td>{{ profile.get_melee_display }}</td>
                         <td>{{ profile.get_range_display }}</td>
                         <td>{{ profile.strength }}</td>
                         <td>{{ profile.toughness }}</td>
@@ -90,7 +90,147 @@
                         <td></td>
                         <td>{{ profile.points }}</td>
                     </tr>
+                    {% if profile.degressive %}
+                        <tr id="degressive-row-display-1" class="black">
+                            <td></td>
+                            {% if profile.movement == '*' %}
+                                <td class="square grey lighten-3" id="movement-1">
+                                    {{ profile.degressive.movement_1 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.melee == '*' %}
+                                <td class="square grey lighten-3" id="melee-1">
+                                    {{ profile.degressive.melee_1 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.range == '*' %}
+                                <td class="square grey lighten-3" id="range-1">
+                                    {{ profile.degressive.range_1 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td></td>
+                            <td></td>
+                            {% if profile.life == '*' %}
+                                <td class="square grey lighten-3" id="life-1">
+                                    {{ profile.degressive.life_1 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.attacks == '*' %}
+                                <td class="square grey lighten-3" id="attacks-1">
+                                    {{ profile.degressive.attacks_1 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr id="degressive-row-display-2" class="black">
+                            <td></td>
+                            {% if profile.movement == '*' %}
+                                <td class="square grey lighten-3" id="movement-2">
+                                    {{ profile.degressive.movement_2 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.melee == '*' %}
+                                <td class="square grey lighten-3" id="melee-2">
+                                    {{ profile.degressive.melee_2 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.range == '*' %}
+                                <td class="square grey lighten-3" id="range-2">
+                                    {{ profile.degressive.range_2 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td></td>
+                            <td></td>
+                            {% if profile.life == '*' %}
+                                <td class="square grey lighten-3" id="life-2">
+                                    {{ profile.degressive.life_2 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.attacks == '*' %}
+                                <td class="square grey lighten-3" id="attacks-2">
+                                    {{ profile.degressive.attacks_2 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr id="degressive-row-display-3" class="black">
+                            <td></td>
+                            {% if profile.movement == '*' %}
+                                <td class="square grey lighten-3" id="movement-3">
+                                    {{ profile.degressive.movement_3 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.melee == '*' %}
+                                <td class="square grey lighten-3" id="melee-3">
+                                    {{ profile.degressive.melee_3 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.range == '*' %}
+                                <td class="square grey lighten-3" id="range-3">
+                                    {{ profile.degressive.range_3 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td></td>
+                            <td></td>
+                            {% if profile.life == '*' %}
+                                <td class="square grey lighten-3" id="life-3">
+                                    {{ profile.degressive.life_3 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            {% if profile.attacks == '*' %}
+                                <td class="square grey lighten-3" id="attacks-3">
+                                    {{ profile.degressive.attacks_3 }}
+                                </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
+
 
                 </tbody>
             </table>

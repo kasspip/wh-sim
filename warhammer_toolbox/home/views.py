@@ -5,7 +5,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from home import forms
-from home.models import Profile, Army, Role, Unit, Race
+from home.choices import DegressiveLargeNumericalEnum
+from home.models import Profile, Army, Role, Unit, Race, DegressiveProfile
 
 
 def update_instance(instance, data):
@@ -118,10 +119,17 @@ def armory_unit_create(request, army_id, role_id):
 
             # profile formsets save
             for profile_form in formset_profile.forms:
-                profile_form.cleaned_data.pop('DELETE')  # added by jquery.formset.js to handle formset display
+                profile_form.cleaned_data.pop('DELETE')  # don;t know what's the use
                 profile_form.cleaned_data['unit'] = unit
-                Profile.objects.create(**profile_form.cleaned_data)
-            return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
+                profile = Profile.objects.create(**profile_form.cleaned_data)
+
+                if profile.life != DegressiveLargeNumericalEnum.SPECIAL:
+                    return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
+                elif form_degressive_profile.is_valid():
+                    degressive_profile = DegressiveProfile.objects.create(**form_degressive_profile.cleaned_data)
+                    profile.degressive = degressive_profile
+                    profile.save()
+                    return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
     else:
         form = forms.UnitForm()
         formset_profile = forms.ProfileCreateFormSet()
@@ -190,6 +198,8 @@ def armory_unit_delete(request, army_id, unit_id):
     army = get_object_or_404(Army, pk=army_id)
     unit = get_object_or_404(Unit, pk=unit_id)
     for profile in unit.profiles.all():
+        if profile.degressive:
+            profile.degressive.delete()
         profile.delete()
     unit.delete()
     return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army.id}))

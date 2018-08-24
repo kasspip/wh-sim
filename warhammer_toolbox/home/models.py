@@ -92,7 +92,7 @@ class Profile(models.Model):
 
     points = models.SmallIntegerField(default=1, validators=[MinValueValidator(1)])
     unit = models.ForeignKey(Unit, null=True, related_name='profiles')
-    degressive_profile = models.ForeignKey(DegressiveProfile, null=True, related_name='base_profiles')
+    degressive = models.ForeignKey(DegressiveProfile, null=True, related_name='base_profiles')
     
     def __str__(self):
         return self.name

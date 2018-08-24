@@ -41,7 +41,7 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        exclude = ['unit', 'degressive_profile']
+        exclude = ['unit', 'degressive']
 
 
 ProfileCreateFormSet = inlineformset_factory(parent_model=Unit,
