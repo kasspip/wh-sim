@@ -27,7 +27,7 @@
                     <h4 class="white-text valign-wrapper"> {{ unit.name }} </h4>
                 </td>
 
-                <td style="width: 10%">
+                <td style="width: 30%" class="right-align">
                     <a title="Edit" href="{% url 'home:armory_unit_edit' army.id unit.id %}"
                        class="btn-floating btn-large waves-effect waves-light black"><i class="material-icons">edit</i></a>
                     <a title="Delete" href="{% url 'home:armory_unit_delete' army.id unit.id %}"
@@ -74,7 +74,7 @@
                 </thead>
                 {% for profile in profiles %}
 
-                    <tbody class="grey lighten-2">
+                    <tbody class="grey lighten-3">
                     <tr>
                         <td>{{ profile.name }}</td>
                         <td>{{ profile.movement }}</td>

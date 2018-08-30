@@ -3,13 +3,18 @@ $(document).ready(main);
 function main() {
     var degressiveProfileRows = "[id^=degressive-row-display]";
     var degressiveMode = $('#profile-life-col select').val() === "*";
-    $('select').on('change', CheckDegressiveProfileValue)
+    var rows = $('#profiles_table_body').children().not(degressiveProfileRows);
+
+    $('select').on('change', CheckDegressiveProfileValue);
     $('#add-profile-button').on('click', ClickAddButton);
     AddButtonsToRows();
 
     if (!degressiveMode) {
         $('#add-profile-button').removeClass('hide');
-        $("#profile-life-col option[value='*']").addClass('hide')
+        $("#profile-life-col option[value='*']").addClass('hide');
+        // if (rows.length > 1 ) {
+        //     $(".degressive-value option[value='*']").addClass('hide');
+        // }
     }
     RefreshDegressiveColsDisplay();
 
@@ -46,7 +51,7 @@ function main() {
             if (index !== 0)
                 $(this).remove()
         });
-        $('#id_profiles-TOTAL_FORMS').val(rows.length);
+        $('#id_profiles-TOTAL_FORMS').val(1);
 
         RefreshDegressiveColsDisplay();
     }
@@ -86,13 +91,12 @@ function main() {
             var fieldSelect = $("select[id$=" + fieldName + "]");
             if (fieldSelect.val() === '*'){
                 $(this).addClass('grey lighten-5');
-                $(this).children('select').removeClass('hide');
+                $(this).find('select').removeClass('hide');
             } else {
                 $(this).removeClass('grey lighten-5');
-                $(this).children('select').addClass('hide');
+                $(this).find('select').addClass('hide');
             }
         });
-
     }
 
     function AddButtonsToRows() {
@@ -113,13 +117,15 @@ function main() {
     function ClickAddButton() {
         var tableBody = $('#profiles_table_body');
         var rows = tableBody.children().not(degressiveProfileRows);
-        var newRow = rows.last().clone();
 
+        var newRow = rows.last().clone();
+        ResetSelectValues(newRow);
         tableBody.append(newRow);
 
         AddButtonsToRows();
         rows = $('#profiles_table_body').children().not(degressiveProfileRows);
         RenameIds(rows);
+        PatchHiddenFields(rows);
         $('#id_profiles-TOTAL_FORMS').val(rows.length);
 
         // hide all value '*' in dropdowns
@@ -140,12 +146,35 @@ function main() {
         }
     }
 
+    function ResetSelectValues(newRow) {
+        selects = newRow.find('select');
+        selects.each(function () {
+           $(this).val('0');
+        });
+    }
+
+    function PatchHiddenFields(rows) {
+        if (!editMode)
+            return;
+
+        var hiddenFieldsList = $('#profiles_hidden_fields');
+        rows.each( function (rowIndex) {
+            var input = hiddenFieldsList.find('input[id="id_profiles-' + rowIndex + '-id"]');
+            if (input.length === 0) {
+                var idProfile = '<li> <input id="id_profiles-' + rowIndex + '-id" name="profiles-' + rowIndex + '-id" value="" type="hidden"> </li>';
+                var foreignKeyUnit = ' <li> <input id="id_profiles-' + rowIndex + '-unit" name="profiles-' + rowIndex + '-unit" value="' + unitId + '" type="hidden"> </li>';
+                hiddenFieldsList.append(idProfile);
+                hiddenFieldsList.append(foreignKeyUnit);
+            }
+        });
+    }
+
     function RenameIds(rows) {
         var fieldsSelector = 'input,select,textarea,label,div';
-        rows.each(function (row_index) {
+        rows.each(function (rowIndex) {
             var fields = $(this).find(fieldsSelector);
-            fields.each(function (field_index) {
-                renameElem($(this), row_index);
+            fields.each(function () {
+                renameElem($(this), rowIndex);
             });
         })
     }

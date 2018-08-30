@@ -22,4 +22,10 @@
 
     {% include "includes/profile_edit_table_content.html" %}
 
+    <script>
+        var editMode = true;
+        var unitId = {{ unit.id }};
+    </script>
+    <script src="{% static 'js/create_unit_dynamic_formsets.js' %}"></script>
+
 {% endblock %}

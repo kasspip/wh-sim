@@ -6,8 +6,7 @@ from django.forms.models import inlineformset_factory, BaseInlineFormSet
 
 
 class ArmyForm(forms.ModelForm):
-
-    name = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'white-text',}))
+    name = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'white-text', }))
 
     class Meta:
         model = Army
@@ -15,15 +14,14 @@ class ArmyForm(forms.ModelForm):
 
 
 class UnitForm(forms.ModelForm):
-
-    name = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'white-text',}))
-    power = forms.IntegerField(initial=1, widget=forms.TextInput(attrs={'class': 'white-text',}))
+    name = forms.CharField(max_length=64, widget=forms.TextInput(attrs={'class': 'white-text', }))
+    power = forms.IntegerField(initial=1, widget=forms.TextInput(attrs={'class': 'white-text', }))
 
     class Meta:
         model = Unit
         fields = ['name', 'power', 'image']
 
-   
+
 class ProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

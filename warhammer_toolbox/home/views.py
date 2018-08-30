@@ -110,26 +110,22 @@ def armory_unit_create(request, army_id, role_id):
         form = forms.UnitForm(request.POST, request.FILES)
         formset_profile = forms.ProfileCreateFormSet(request.POST, request.FILES)
         form_degressive_profile = forms.DegressiveProfileForm(request.POST, request.FILES)
-
-        if form.is_valid() and formset_profile.is_valid():
-            # unit save
+        if form.is_valid() and formset_profile.is_valid() and form_degressive_profile.is_valid():
+            # - unit save
             form.cleaned_data['army'] = army
             form.cleaned_data['role'] = role
             unit = Unit.objects.create(**form.cleaned_data)
 
-            # profile formsets save
+            # - profile formsets save
             for profile_form in formset_profile.forms:
-                profile_form.cleaned_data.pop('DELETE')  # don;t know what's the use
+                delete = profile_form.cleaned_data.pop('DELETE')
                 profile_form.cleaned_data['unit'] = unit
                 profile = Profile.objects.create(**profile_form.cleaned_data)
-
-                if profile.life != DegressiveLargeNumericalEnum.SPECIAL:
-                    return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
-                elif form_degressive_profile.is_valid():
+                if profile.life == DegressiveLargeNumericalEnum.SPECIAL:
                     degressive_profile = DegressiveProfile.objects.create(**form_degressive_profile.cleaned_data)
                     profile.degressive = degressive_profile
                     profile.save()
-                    return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
+            return HttpResponseRedirect(reverse('home:armory_army_details', kwargs={'army_id': army_id}))
     else:
         form = forms.UnitForm()
         formset_profile = forms.ProfileCreateFormSet()
@@ -155,41 +151,65 @@ def armory_unit_details(request, army_id, unit_id):
 def armory_unit_edit(request, army_id, unit_id):
     army = get_object_or_404(Army, pk=army_id)
     unit = get_object_or_404(Unit, pk=unit_id)
-
     if request.method == 'POST':
         form = forms.UnitForm(request.POST, request.FILES, instance=unit)
         formset_profile = forms.ProfileCreateFormSet(request.POST, request.FILES, instance=unit)
+        degressive_form = forms.DegressiveProfileForm(request.POST, request.FILES, instance=unit.profile.degressive)
 
-        # import pdb; pdb.set_trace()
-        if form.is_valid() and formset_profile.is_valid():
-            # unit save
+        if form.is_valid() and formset_profile.is_valid() and degressive_form.is_valid():
+            # - unit save
             update_instance(unit, form.cleaned_data)
 
-            # formsets save
+            # - profile formsets update or add
             for profile_form in formset_profile.forms:
-                profile_form.cleaned_data.pop('DELETE')
-                profile_form.cleaned_data.pop('id')  # don't know why but this field is set with instance instead of id
-                update_instance(profile_form.instance, profile_form.cleaned_data)
+                delete = profile_form.cleaned_data.pop('DELETE')
+                profile_instance = profile_form.cleaned_data.pop('id')
+                if profile_instance:
+                    update_instance(profile_instance, profile_form.cleaned_data)
+                else:
+                    profile_instance = Profile.objects.create(**profile_form.cleaned_data)
+                    profile_form.instance = profile_instance
 
-            # formsets delete
+            # - profile formsets delete
+            unit.refresh_from_db()
             instances_updated = [form.instance.id for form in formset_profile.forms]
             for profile in unit.profiles.all():
                 if profile.id not in instances_updated:
                     profile.delete()
 
+            # - handle degressive profile
+            unit.refresh_from_db()
+            if unit.profile.life != DegressiveLargeNumericalEnum.SPECIAL:
+                if unit.profile.degressive is not None:
+                    unit.profile.degressive.delete()
+                return HttpResponseRedirect(reverse('home:armory_unit_details', kwargs={
+                    'army_id': army_id,
+                    'unit_id': unit_id
+                }))
+            else:
+                if unit.profile.degressive is not None:
+                    update_instance(unit.profile.degressive, degressive_form.cleaned_data)
+                else:
+                    profile = unit.profile
+                    degressive_profile = DegressiveProfile.objects.create(**degressive_form.cleaned_data)
+                    profile.degressive = degressive_profile
+                    profile.save()
             return HttpResponseRedirect(reverse('home:armory_unit_details', kwargs={
-                'army_id': army_id,
-                'unit_id': unit_id
-            }))
+                    'army_id': army_id,
+                    'unit_id': unit_id
+                }))
     else:
         form = forms.UnitForm(instance=unit)
         formset_profile = forms.ProfileEditFormSet(instance=unit)
+        degressive_form = forms.DegressiveProfileForm(instance=unit.profile.degressive)
 
     context = dict()
+    context['unit'] = unit
+    context['army'] = army
     context['form'] = form
     context['formset_profile'] = formset_profile
-    context['army'] = army
-    context['unit'] = unit
+
+    context['form_degressive_profile'] = degressive_form
     return render(request, 'armory/unit/unit_edit.html', context)
 
 

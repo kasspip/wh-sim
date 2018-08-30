@@ -17,7 +17,7 @@
                 <h3> {{ army.name }} </h3>
             </td>
 
-            <td style="width: 10%">
+            <td style="width: 30%" class="right-align">
                 {% if perms.home.edit_army %}
                     <a title="Edit" href="{% url 'home:armory_army_edit' army.id %}"
                        class="btn-floating btn-large waves-effect waves-light black"><i class="material-icons">edit</i></a>

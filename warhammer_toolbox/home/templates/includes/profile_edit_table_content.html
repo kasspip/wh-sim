@@ -4,11 +4,9 @@
     <div class="col s12">
         <form method="post" enctype="multipart/form-data" id="id_unit_table">
             {% csrf_token %}
-
             <div class="section">
                 {{ form.as_p }}
             </div>
-
             <div class="section">
                 <div class="row">
                     <div class="col s12">
@@ -46,8 +44,6 @@
                                         {# {% endfor %}#}
                                         {#                                   </tr>                                   #}
                                         {# {% endif %}#}
-
-
                                         <tr>
                                             <td>
                                                 {% for fld in profile_form.hidden_fields %}{{ fld }}{% endfor %}
@@ -109,34 +105,24 @@
                                                 </a>
                                             </td>
                                         </tr>
-
                                     {% endfor %}
 
                                     {% include 'includes/degressive_profile_table_content.html' %}
 
                                     </tbody>
                                 </table>
-                                {% for profile_form in formset_profile.forms %}
-
-
-                                    {% for hidden_field in profile_form.hidden_fields %}
-                                        {% if hidden_field.errors %}
-                                            <ul>
-                                                {% for error in hidden_field.errors %}
-                                                    <li class="red">(Hidden
-                                                        field {{ hidden_field.name }}) {{ error }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        {% endif %}
+                                <ul id="profiles_hidden_fields">
+                                    {% for profile_form in formset_profile.forms %}
+                                        {% for hidden_field in profile_form.hidden_fields %}
+                                            <li> {{ hidden_field }} </li>
+                                            {% for error in hidden_field.errors %}
+                                                <li class="red">(Hidden field ) {{ error }}</li>
+                                            {% endfor %}
+                                        {% endfor %}
                                     {% endfor %}
-
-
-                                {% endfor %}
-
-
+                                </ul>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -156,4 +142,3 @@
         </form>
     </div>
 </div>
-<script src="{% static 'js/create_unit_dynamic_formsets.js' %}"></script>
